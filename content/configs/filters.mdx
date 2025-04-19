@@ -1,0 +1,199 @@
+import { Callout } from 'nextra/components'
+
+# Filters
+
+Filters allow you to customize rules for data recording. While you can completely disable events in `prism.conf`, filters allow finer control. Filters tell prism to allow or ignore events that match specific criteria - worlds, actions, materials, players, and more.
+
+For example, many servers have harvest-only "resource" worlds which could generate millions of useless activity logs. No one really cares who mined dirt and stone in a resource world, which is where filters come in.
+
+Filters help you avoid recording data that you don't want. Reducing what gets saved to your database will improve performance and disk usage.
+
+## Writing Filters
+
+Prism does not generate any filters by default. In `prism.conf`, look for the `filters=[]` config.
+
+Every filter must have:
+
+* A defined **behavior**
+* At least one **condition**
+
+The behavior determines if the filter will **ignore** or **allow** recording if the conditions are met.
+
+```hocon
+filters=[
+    {
+        behavior: IGNORE
+    }
+]
+```
+
+The `behavior` property must be set to one of these choices:
+
+* **ALLOW** - Only actions matching all defined conditions will be recorded.
+* **IGNORE** - Any actions matching all defined conditions will not be recorded.
+
+Next, you need at least one **condition**.
+
+## Conditions
+
+Conditions give you many ways to match specifics of an activity.
+
+Some conditions are unique and if defined, all must match the activity for the filter to take effect. 
+
+For example if you define `actions=["block-break"]` **and** `worlds=[MikesWorld]` then the filter will only match block-break activities in a world named "MikesWorld".
+
+Some conditions are different ways of defining the same rule, so you can mix and match them.
+
+For example if you define `materials=[diamond_ore]` and `block-tags=["minecraft:dirt"]` the filter is going to match *either* a material named "diamond_ore" **or** anything tagged "minecraft:dirt".
+
+You can define as many conditions as you need, but you must have at least one.
+
+Condition *values* work like parameter values - any value in the list that matches is enough.
+
+**Miscellaneous**
+
+The following four conditions represent different things. A filter only applies to an activity if it matches a value in each defined condition.
+
+* `actions` - A list of actions (see [Actions](/actions))
+* `causes` - A list of causes
+* `permissions` - A list of player permissions (see [Permissions](/configs/permissions))
+* `worlds` - A list of world names
+
+**Materials (Items/Blocks)**
+
+The following three conditions are different ways of defining materials. You can mix and match any of them. All that matters for determining if the filter applies is if a material (item/block) matches a material in **any** of these conditions.
+
+* `block-tags` - A list of block tags (see [Block Tags](https://minecraft.wiki/w/Block_tag_(Java_Edition)))
+* `item-tags` - A list of item tags (see [Item Tags](https://minecraft.wiki/w/Item_tag_(Java_Edition)))
+* `materials` - A list of block or item [Material](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+
+**Entity Types**
+
+The following two conditions are different ways of defining entity types. You can mix and match any of them. All that matters for determining if the filter applies is if an entity type matches a value in **any** of these conditions.
+
+* `entity-types` - A list of [Entity Types](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html)
+* `entity-type-tags` - A list of entity type tags (see [Entity Type Tags](https://minecraft.wiki/w/Entity_type_tag_(Java_Edition)))
+
+To achieve our example of ignoring common blocks in a resource world, we could use this:
+
+```hocon
+filters=[
+    {
+        name="Ignore common blocks"
+        behavior=IGNORE
+        conditions={
+            # Use some convenient Minecraft tags to bulk list generic blocks
+            block-tags=[
+                "minecraft:dirt",
+                "minecraft:base_stone_overworld",
+                "minecraft:sand"
+            ]
+            # Add gravel since it's not in any of those tags
+            materials=[
+                gravel
+            ]
+            worlds=[
+                resource
+            ]
+        }
+    }
+]
+```
+
+This would match all activities that:
+
+* Involve any block that matches a value in those Minecraft tags + materials list
+* Occur in the world named "resource". 
+
+Because it's set to ignore, this will prevent prism from recording these events. 
+
+Or you can reverse your approach and whitelist the blocks you want to record using `ALLOW`:
+
+```hocon
+filters=[
+    {
+        name="Ores in resource"
+        behavior=ALLOW
+        conditions={
+            block-tag=[
+                prism:all_ores
+            ]
+            worlds=[
+                resource
+            ]
+        }
+    }
+]
+```
+
+<Callout type='info'>The `prism:all_ores` tag is a custom tag included in our datapack, which must be installed separately. You can use any default or custom tag (downloaded or made from scratch).</Callout>
+
+
+## Filter Logic
+
+It's important to understand how filters are applied.
+
+**IGNORE behavior filters are scanned first, ALLOW next.**
+
+Prism first searches the "IGNORE" filters first. If one matches, Prism will not record that activity and it stops searching through the other filters.
+
+**Next, filters are applied in the exact order they're defined in the config.**
+
+Once divided by their behavior, filters are applied by the order they're defined in `prism.conf`. If an activity matches the conditions, the decision is made. Subsequent filters are not used.
+
+**The default decision to record depends on defined behaviors**
+
+If you define a list of IGNOREs, the default "decision" to record will be true. More clearly, anything not being ignored will be recorded.
+
+If you have any ALLOW filters, the default decision will be to deny. If an activity does not match your ALLOW filter, it will not be recorded.
+
+**If you mix IGNORE/ALLOW filters, you may need a generous ALLOW**
+
+Mixing IGNORE/ALLOW can be useful when you want to whitelist things in one way, but blacklist others.
+
+If you have an ignore list for "world" and an ALLOW list for "world_nether", nothing from "world" will get recorded because the *default* decision when any ALLOW is present is to reject the activity.
+
+We can fix this by adding an ALLOW rule for world:
+
+```hocon
+filters=[
+    {
+        name="Ignore common blocks"
+        behavior=IGNORE
+        conditions={
+            materials=[
+                gravel
+            ]
+            block-tags=[
+                "minecraft:dirt",
+                "minecraft:base_stone_overworld",
+                "minecraft:sand"
+            ]
+        }
+    },
+    {
+        name="Allow everything else in world"
+        behavior=ALLOW
+        conditions={
+            worlds=[
+                world
+            ]
+        }
+    },
+    {
+        name="Allow quartz in nether"
+        behavior=ALLOW
+        conditions={
+            materials=[
+                nether_quartz_ore
+            ]
+            worlds=[world_nether]
+        }
+    }
+]
+```
+
+The end result is that:
+
+1. Anything matching the IGNORE conditions is rejected
+2. Anything matching either ALLOW will be recorded

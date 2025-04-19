@@ -1,0 +1,294 @@
+import { Table } from 'nextra/components'
+
+# Actions
+
+"Actions" are specific in-game events that Prism monitors, like `block-break` or `item-drop`. They are always two lower-case words with a hyphen.
+
+"Action Families" are related actions. They're related in that they share the suffix, like `block-break` and `hanging-break`. They're both "break" events.
+
+The following is a list of all actions Prism v4 can monitor.
+
+- `Default` indicates whether Prism monitors this action by default. Some are disabled for performance or spam reasons.
+- `Reversible` indicates whether the action can be reversed (see [Modifications](./features/modifications))
+
+## Actions List
+
+
+<Table>
+  <thead>
+    <Table.Tr>
+      <Table.Th>Action</Table.Th>
+      <Table.Th>Monitors</Table.Th>
+      <Table.Th>Default?</Table.Th>
+      <Table.Th>Reversible?</Table.Th>
+    </Table.Tr>
+  </thead>
+  <tbody>
+    <Table.Tr>
+      <Table.Td><code>bed-enter</code></Table.Td>
+      <Table.Td>villager/player entering bed</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-break</code></Table.Td>
+      <Table.Td>blocks broken</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-fade</code></Table.Td>
+      <Table.Td>blocks fading (snow melt, etc)</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-form</code></Table.Td>
+      <Table.Td>blocks forming (snow, obsidian)</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-harvest</code></Table.Td>
+      <Table.Td>harvest crop w/out break</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-ignite</code></Table.Td>
+      <Table.Td>blocks set on fire</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No*</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-place</code></Table.Td>
+      <Table.Td>blocks placed</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-shift</code></Table.Td>
+      <Table.Td>blocks moved by pistons</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-spread</code></Table.Td>
+      <Table.Td>blocks spreading/growing</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>block-use</code></Table.Td>
+      <Table.Td>player uses a block</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>bonemeal-use</code></Table.Td>
+      <Table.Td>player uses bonemeal</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No*</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>bucket-empty</code></Table.Td>
+      <Table.Td>player empties bucket contents</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No*</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>bucket-fill</code></Table.Td>
+      <Table.Td>player fills bucket</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No*</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-dye</code></Table.Td>
+      <Table.Td>player dyes entity (aka sheep)</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-eat</code></Table.Td>
+      <Table.Td>entity eats (aka sheep)</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-kill</code></Table.Td>
+      <Table.Td>mobs killed</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-leash</code></Table.Td>
+      <Table.Td>player leashes an entity</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-place</code></Table.Td>
+      <Table.Td>armorstand/end crystal placement</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-ride</code></Table.Td>
+      <Table.Td>mob/player rides a mob</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-shear</code></Table.Td>
+      <Table.Td>entity is sheared</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-transform</code></Table.Td>
+      <Table.Td>entity transforms into another</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-unleash</code></Table.Td>
+      <Table.Td>entity is unleashed</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>fluid-flow</code></Table.Td>
+      <Table.Td>water/lava flows (not breaks)</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>hanging-break</code></Table.Td>
+      <Table.Td>frames/paintings broken</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>hanging-place</code></Table.Td>
+      <Table.Td>frames/paintings placed</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>inventory-open</code></Table.Td>
+      <Table.Td>player accesses an inventory</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>item-dispense</code></Table.Td>
+      <Table.Td>items dispensed by dispenser</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>item-drop</code></Table.Td>
+      <Table.Td>items dropped by player</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>item-insert</code></Table.Td>
+      <Table.Td>items inserted into an inventory</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>item-pickup</code></Table.Td>
+      <Table.Td>mob/player picking up items</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>item-remove</code></Table.Td>
+      <Table.Td>items removed from an inventory</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>item-throw</code></Table.Td>
+      <Table.Td>mob/player throwing items</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>player-death</code></Table.Td>
+      <Table.Td>player died</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>player-join</code></Table.Td>
+      <Table.Td>player connecting to server</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>player-quit</code></Table.Td>
+      <Table.Td>player disconnecting from server</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>player-teleport</code></Table.Td>
+      <Table.Td>player teleporting</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>sign-edit</code></Table.Td>
+      <Table.Td>player changed sign text</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>vehicle-break</code></Table.Td>
+      <Table.Td>destruction of boat/minecart</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>vehicle-exit</code></Table.Td>
+      <Table.Td>mob/player exits boat/minecart</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>vehicle-place</code></Table.Td>
+      <Table.Td>player/block places boat/minecart</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>vehicle-ride</code></Table.Td>
+      <Table.Td>mob/player rides boat/minecart</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>xp-pickup</code></Table.Td>
+      <Table.Td>player gains XP</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+  </tbody>
+</Table>
+
+Asterisk (*) means action is not reversible but may produce other events which are.
+
+Natural Spam
+------------
+
+Several events are disabled by default because they _mostly_ log natural events that you won't care about. These are especially spammy after fresh chunk gen as water starts flowing and blocks adjust to their environment.
+
+- `block-fade` - Snow melt, grass/nylium blocks fading into dirt/netherrack, etc.
+- `block-form` - Snow fall, obsidian formation, etc.
+- `block-spread` - Vine, amethyst, mushroom, and other growth. Grass, mycelium, and mushrooms, spreading.
+- `fluid-flow` - Tracks the flow of fluids. Strongly recommend a drain tool. Still tracks flow breaking blocks.
+
+If you plan to enable any of these, we *strongly* recommend you use a filter or increase their purge rate.

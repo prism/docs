@@ -1,0 +1,14 @@
+import Command from '../../components/command.tsx'
+import { Callout } from 'nextra/components'
+
+# /pr reload
+
+<Command command="reloadconfigs" />
+
+Reloads configuration files.
+
+<Callout type='info'>Some configuration changes currently need a server reboot to apply - mainly storage/database configs.</Callout>
+
+<Command command="reloadlocales" />
+
+Reloads messaging and localization files.

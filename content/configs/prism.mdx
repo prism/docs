@@ -1,0 +1,14 @@
+# prism.conf
+
+The `prism.conf` configuration file is the main configuration file.
+
+The files are well-commented with explanations so we won't duplicate that here.
+
+Prism ships with sensible defaults, and some of the options in the file are things you likely never need to change.
+
+However, here are some things you should definitely be aware of:
+
+- `actions` - Disable anything unimportant you. The fewer actions logged can save space in the database.
+- `debug` - We may ask you to enable this and send us the logs when getting support.
+- `filter_debug` - This can be helpful in debugging your filters. It can get spammy, so do it on a test server.
+- `purges` - Schedule one purge rule to clean out old data.

@@ -1,0 +1,51 @@
+import { Callout } from 'nextra/components'
+
+# storage.conf
+
+There are two ways to configure Prism's storage features:
+
+1. The `storage.conf` configuration file (most common)
+2. A HikariCP properties file (use only when necessary)
+
+The storage configuration file allows you to choose which storage engine is used, and configure connection addresses/credentials as needed.
+
+Currently, there is no way to import data from one storage engine to another.
+
+## HikariCP
+
+Prism uses [HikariCP](https://github.com/brettwooldridge/HikariCP) for database connection pooling. Prism builds a configuration for you that's optimized for most use cases.
+
+However, you can define a custom `hikari.properties` file in the plugin's configuration folder. 
+
+<Callout type='info'>Using a hikari.properties file will override values Prism sets.</Callout>
+
+An example file might look like:
+
+```properties
+dataSourceClassName=com.mysql.cj.jdbc.MysqlDataSource
+dataSource.user=somePrismUser
+dataSource.password=someSecurePassword
+dataSource.url=jdbc:mysql://localhost:3306/prism
+dataSource.cachePrepStmts=true
+dataSource.prepStmtCacheSize=250
+dataSource.prepStmtCacheSqlLimit=2048
+dataSource.useServerPrepStmts=true
+dataSource.cacheCallableStmts=true
+dataSource.cacheResultSetMetadata=true
+dataSource.cacheServerConfiguration=true
+dataSource.useLocalSessionState=true
+dataSource.elideSetAutoCommits=true
+dataSource.alwaysSendSetIsolation=false
+```
+
+## Troubleshooting
+
+If you encounter issues with the database connection, check the following:
+
+- Confirm the address and your credentials were entered correctly.
+- Ensure the database server is running.
+- Try logging in to your database using another tool.
+- Check the firewall settings.
+- Confirm the versions match our requirements.
+- Check the logs for any errors or warnings.
+- Enable `debug` mode in prism.conf and [send us the log](https://mclo.gs/) for support.

@@ -1,0 +1,14 @@
+# Actions
+
+Use the `a:` parameter to list one or more actions (see [Actions](/actions)).
+
+* `a:[action keys]`
+* `a:[action families]`
+
+The "action key" is a unique identifier for each action type, like `block-break`.
+
+The "action family" is the word following the hyphen in the action key. So, `break` for `block-break`. Sometimes, actions are similar and you may want to query multiple without listing them individually. Example: ``hanging-break`` and ``block-break`` are both in the ``break`` family.
+
+To lookup all "break" actions, use: `/pr l a:break` (includes **any** actions that match `*-break`)
+
+To lookup multiple specific actions, use `/pr l a:block-break,block-place` (includes **only** results for these two actions)

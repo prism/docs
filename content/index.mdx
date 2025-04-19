@@ -1,0 +1,47 @@
+import { Callout } from 'nextra/components'
+
+# Welcome to Prism
+ 
+**Prism** is an event logging and grief-management plugin for [Spigot](https://www.spigotmc.org) or [Paper](https://papermc.io)-based servers.
+
+This documentation is exclusively for Prism version 4. Documentation for v3 is [available here](https://prism-bukkit.readthedocs.io/en/latest>)
+
+<Callout type='info'>Prism v4 is under active development. It's possible that some features change before release.</Callout>
+
+## Features
+
+- Supports h2, sqlite, mysql, mariadb, and postgres databases.
+- Stored procedure support for mysql/mariadb/postgres.
+- Activity logging for 40+ events and powerful search parameters.
+- Better serialization of block/entity/item data.
+- Command, parameter, and flag auto-suggestions.
+- Several new parameters.
+- Tag support.
+- Simple permissions.
+- Rollback, restore, and preview commands.
+- Inspect, rollback, and restore wands.
+- Peek command to view complete items in an inventory.
+- Report command to explain skipped modifications.
+- Sensible default configuration settings.
+- Commented and well-organized config files.
+- Powerful filter configuration.
+- Localization and configurable formatting of messages.
+- Purge system with scheduler.
+
+## Support
+
+- [Discord](https://discord.gg/7FxZScH4EJ) - Please visit Discord to ask questions. Please do not ping viveleroi.
+- [GitHub](https://github.com/prism/prism) - Report issues, request features, etc.
+- [Dev Builds](https://ci.darkhelmet.network/job/prism/) - Get the latest and (hopefully) greatest builds.
+
+If reporting problems, please try enabling `debug` mode in the `prism.conf` file and [send us the log](https://mclo.gs/).
+
+## 4 > 3
+
+Prism version 4 is a **complete** rewrite. We're retiring the original Prism codebase which started in 2012.
+
+This new version aims to correct all of the problems with the old product including saner permissions, better database support, better configuration, better logging, better rollbacks... you know what, just _better everything_.
+
+### Upgrading
+
+Unfortunately there is no way to upgrade from Prism 3. Prism 4 needs a clean start.

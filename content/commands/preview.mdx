@@ -1,0 +1,28 @@
+import Command from '../../components/command.tsx'
+import { Callout } from 'nextra/components'
+
+# /pr preview
+
+Preview commands will allow you to view block changes without actually changing the world on the server.
+
+It works by telling your game client the blocks changed, just not the server. 
+
+<Callout type='info'>Because of how Minecraft works, previews will **only** include block changes. Entities and items cannot be "faked".</Callout>
+
+<Command command="preview-rollback" alias="prb" />
+
+The preview rollback command will preview any reversible changes based on your search parameters.
+
+To understand the parameters available and their use, please see [Parameters](/parameters).
+
+<Command command="preview-restore" alias="prs" />
+
+Preview support for restores is unfinished.
+
+<Command command="preview-apply" />
+
+Applying a preview will perform the actual rollback/restore, altering the server world.
+
+<Command command="preview-cancel" />
+
+Canceling a preview will send the "live" block data to your client and discard the queued modifications.
