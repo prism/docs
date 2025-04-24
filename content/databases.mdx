@@ -18,8 +18,6 @@ H2 and Sqlite are file-based databases and work "out of the box" because their f
 
 They're convenient as they need zero setup and do not rely on a database server installation.
 
-There are significant pros and cons for server-based databases versus file-based but whether those matter to you are up to you.
-
 There are a lot of great resources comparing these choices to another so if you have a choice between databases, please look into comparisons before choosing which Prism should use.
 
 ## Database Servers: MySQL, MariaDB, Postgres
@@ -54,7 +52,7 @@ Out of the box, Prism does a lot for performance.
 
 **Asynchronous Tasks**
 
-Prism executes queries on another thread, some the game thread is not blocked.
+Prism executes queries on another thread, so the game thread is not blocked.
 
 **Connection Pooling**
 
@@ -74,5 +72,5 @@ Prism uses the recommended Hikari optimizations for MySQL/MariaDB servers. This 
 
 Stored procedures/functions can move complex db queries/logic to the database server which reduces network traffic. Things that might take multiple queries from Prism become only a single procedure call.
 
-<Callout type='info'>This feature is limited to users who have database permission to create procedures/functions. That's common on shared hosts, especially in MySQL/MariaDB.</Callout>
+<Callout type='info'>This feature is limited to users who have database permission to create procedures/functions. That's commonly restricted on shared hosts, especially in MySQL/MariaDB.</Callout>
 

@@ -58,7 +58,7 @@ The following is a list of all actions Prism v4 can monitor.
       <Table.Td><code>block-ignite</code></Table.Td>
       <Table.Td>blocks set on fire</Table.Td>
       <Table.Td>Yes</Table.Td>
-      <Table.Td>No*</Table.Td>
+      <Table.Td>No<sup>1</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>block-place</code></Table.Td>
@@ -69,7 +69,7 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>block-shift</code></Table.Td>
       <Table.Td>blocks moved by pistons</Table.Td>
-      <Table.Td>No</Table.Td>
+      <Table.Td>No<sup>2</sup></Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -88,19 +88,19 @@ The following is a list of all actions Prism v4 can monitor.
       <Table.Td><code>bonemeal-use</code></Table.Td>
       <Table.Td>player uses bonemeal</Table.Td>
       <Table.Td>Yes</Table.Td>
-      <Table.Td>No*</Table.Td>
+      <Table.Td>No<sup>1</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>bucket-empty</code></Table.Td>
       <Table.Td>player empties bucket contents</Table.Td>
       <Table.Td>Yes</Table.Td>
-      <Table.Td>No*</Table.Td>
+      <Table.Td>No<sup>1</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>bucket-fill</code></Table.Td>
       <Table.Td>player fills bucket</Table.Td>
       <Table.Td>Yes</Table.Td>
-      <Table.Td>No*</Table.Td>
+      <Table.Td>No<sup>1</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>entity-dye</code></Table.Td>
@@ -131,6 +131,12 @@ The following is a list of all actions Prism v4 can monitor.
       <Table.Td>armorstand/end crystal placement</Table.Td>
       <Table.Td>Yes</Table.Td>
       <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>entity-remove</code></Table.Td>
+      <Table.Td>player removes a mob (fish in buckets)</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>entity-ride</code></Table.Td>
@@ -297,7 +303,8 @@ The following is a list of all actions Prism v4 can monitor.
   </tbody>
 </Table>
 
-Asterisk (*) means action is not reversible but may produce other events which are.
+<sup>1</sup> The action is not reversible but may produce other events which are.<br />
+<sup>2</sup> Blocks broken by pistons will still be tracked. block-shift only applies to blocks moved.
 
 Natural Spam
 ------------

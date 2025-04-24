@@ -6,6 +6,6 @@ They are always entered after the command you're using. For example `/pr lookup 
 
 If no parameters are provided, Prism will use any configured defaults.
 
-Parameters act as an "AND" condition, but parameters that support multiple entries act as an "OR". You may need to run multiple commands if your parameters might conflict. For example `p:viveleroi m:stone e:cow` will return "No Results" because there's no way all three values can exist in a single record. If you truly need to be this exact, split it up into `p:viveleroi m:stone` and `p:viveleroi e:cow`.
+Parameters act as an "AND" condition, but parameters that support multiple entries act as an "OR". You may need to run multiple commands if your parameters might conflict. For example `p:viveleroi m:stone e:cow` will return "No Results" because there's no way all three values can exist in a single record.
 
 However, a single parameter that accepts multiple entries will work as expected. `p:kermit,fozzie m:stone` will find records in which kermit **or** fozzie acted upon stone.

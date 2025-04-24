@@ -8,7 +8,9 @@ When performing a rollback/restore modification, you may see a message that some
 
 Either by clicking on that value or by running this report command, you can see a more detailed explanation about why a change was skipped.
 
-Current reasons a modification might be skipped include:
+## Skip Reasons
 
+* Already Set - The block is already set and the modification is not necessary.
 * Blacklisted - The block/entity/item was blacklisted in your configuration. TNT for example.
+* Not Applicable - The modification isn't applicable due to a very specific scenario.
 * Not Implemented - The activity has no rollback/restore support.
