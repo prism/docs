@@ -22,7 +22,7 @@ The behavior determines if the filter will **ignore** or **allow** recording if 
 ```hocon
 filters=[
     {
-        behavior: IGNORE
+        behavior=IGNORE
     }
 ]
 ```
@@ -81,7 +81,7 @@ filters=[
     {
         name="Ignore common blocks"
         behavior=IGNORE
-        conditions={
+        conditions {
             # Use some convenient Minecraft tags to bulk list generic blocks
             block-tags=[
                 "minecraft:dirt",
@@ -114,7 +114,7 @@ filters=[
     {
         name="Ores in resource"
         behavior=ALLOW
-        conditions={
+        conditions {
             block-tag=[
                 prism:all_ores
             ]
@@ -160,7 +160,7 @@ filters=[
     {
         name="Ignore common blocks"
         behavior=IGNORE
-        conditions={
+        conditions {
             materials=[
                 gravel
             ]
@@ -174,7 +174,7 @@ filters=[
     {
         name="Allow everything else in world"
         behavior=ALLOW
-        conditions={
+        conditions {
             worlds=[
                 world
             ]
@@ -183,7 +183,7 @@ filters=[
     {
         name="Allow quartz in nether"
         behavior=ALLOW
-        conditions={
+        conditions {
             materials=[
                 nether_quartz_ore
             ]
