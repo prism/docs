@@ -1,0 +1,18 @@
+# Indexes
+
+Databases uses indexes to efficiently search for data. An index is a data structure that improves the speed of data retrieval operations. Indexes are created on one or more columns of a table, allowing the database to quickly locate rows based on the values in those columns.
+
+Prism's default indexes are designed off the default parameters and assumed common queries.
+
+If you're seeing slow queries, you may need to create or modify the indexes to suit your needs.
+
+Indexes should match the type of queries you run most often.
+
+# Spy and EXPLAIN
+
+In the `storage.conf` file, enabled the `spy` setting and run a typical lookup command in-game.
+
+The spy system will log the SQL query to the console/log, both with a parameterized and value-filled version.
+
+Use the value-filled version along with the `EXPLAIN` sql syntax to example which indexes the query is using.
+
