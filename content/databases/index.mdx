@@ -22,7 +22,7 @@ There are a lot of great resources comparing these choices to another so if you 
 
 ## Database Servers: MySQL, MariaDB, Postgres
 
-You'll either get one from your server hosting company (they'll give you the connection address and credentials) or you'll install a database server yourself.
+You'll either get one from your server hosting company (they'll give you the connection address and credentials), use a third party database service, or you'll install a database server yourself.
 
 We understand that many users will have a database from a shared hosting company but there are several downsides to this:
 
@@ -53,6 +53,10 @@ Out of the box, Prism does a lot for performance.
 **Asynchronous Tasks**
 
 Prism executes queries on another thread, so the game thread is not blocked.
+
+**Caching**
+
+When not using stored procedures, Prism caches data while the server is running to reduce the number of network requests. See [Caches](/features/caches).
 
 **Connection Pooling**
 

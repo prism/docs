@@ -1,0 +1,21 @@
+# Troubleshooting
+
+## Databases
+
+Database servers can involve a learning curve if you're new to them.
+
+If Prism fails to connect to your database, we can't usually help because the details are specific to your setup.
+
+**Please do NOT post your database credentials in discord or on github.**
+
+If you're using a hosting company, you should be able to get support regarding database setup and connection problems.
+
+If you encounter issues with the database connection (mysql/maria/postgres only), check the following:
+
+- Check the logs for any errors or warnings. Confirm the error is database-related. Prism should say so.
+- Confirm the database address and your credentials were entered correctly.
+- Ensure the database server is running.
+- Try logging in to your database using another tool.
+- Check the firewall settings.
+- Confirm the versions match our requirements.
+- Enable `debug` mode in prism.conf and [send us the log](https://mclo.gs/) for support.

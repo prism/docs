@@ -3,6 +3,7 @@ import type { MetaRecord } from 'nextra'
 const meta: MetaRecord = {
     prism: {},
     about: {},
+    cache: {},
     lookup: {},
     near: {},
     peek: {},
