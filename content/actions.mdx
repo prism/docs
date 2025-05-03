@@ -27,7 +27,7 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>bed-enter</code></Table.Td>
       <Table.Td>villager/player entering bed</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -57,7 +57,7 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>block-ignite</code></Table.Td>
       <Table.Td>blocks set on fire</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No<sup>1</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -69,7 +69,7 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>block-shift</code></Table.Td>
       <Table.Td>blocks moved by pistons</Table.Td>
-      <Table.Td>No<sup>2</sup></Table.Td>
+      <Table.Td>No<sup>3</sup></Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -87,7 +87,7 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>bonemeal-use</code></Table.Td>
       <Table.Td>player uses bonemeal</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No<sup>1</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -105,13 +105,13 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>entity-dye</code></Table.Td>
       <Table.Td>player dyes entity (aka sheep)</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>Yes</Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>entity-eat</code></Table.Td>
       <Table.Td>entity eats (aka sheep)</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>Yes</Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -123,7 +123,7 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>entity-leash</code></Table.Td>
       <Table.Td>player leashes an entity</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -141,19 +141,19 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>entity-ride</code></Table.Td>
       <Table.Td>mob/player rides a mob</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>entity-shear</code></Table.Td>
       <Table.Td>entity is sheared</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>Yes</Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>entity-transform</code></Table.Td>
       <Table.Td>entity transforms into another</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -165,7 +165,7 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>firework-launch</code></Table.Td>
       <Table.Td>firework launches</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -189,14 +189,14 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>inventory-open</code></Table.Td>
       <Table.Td>player accesses an inventory</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>item-dispense</code></Table.Td>
       <Table.Td>items dispensed by dispenser</Table.Td>
       <Table.Td>Yes</Table.Td>
-      <Table.Td>No</Table.Td>
+      <Table.Td>No<sup>2</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>item-drop</code></Table.Td>
@@ -214,7 +214,7 @@ The following is a list of all actions Prism v4 can monitor.
       <Table.Td><code>item-pickup</code></Table.Td>
       <Table.Td>mob/player picking up items</Table.Td>
       <Table.Td>Yes</Table.Td>
-      <Table.Td>No</Table.Td>
+      <Table.Td>No<sup>2</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>item-remove</code></Table.Td>
@@ -225,14 +225,14 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>item-rotate</code></Table.Td>
       <Table.Td>rotating item frame items</Table.Td>
-      <Table.Td>Yes</Table.Td>
       <Table.Td>No</Table.Td>
+      <Table.Td>No<sup>2</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>item-throw</code></Table.Td>
       <Table.Td>mob/player throwing items</Table.Td>
       <Table.Td>Yes</Table.Td>
-      <Table.Td>No</Table.Td>
+      <Table.Td>No<sup>2</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
       <Table.Td><code>player-death</code></Table.Td>
@@ -255,7 +255,7 @@ The following is a list of all actions Prism v4 can monitor.
     <Table.Tr>
       <Table.Td><code>player-teleport</code></Table.Td>
       <Table.Td>player teleporting</Table.Td>
-      <Table.Td>Yes</Table.Td>
+      <Table.Td>No</Table.Td>
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
@@ -304,7 +304,8 @@ The following is a list of all actions Prism v4 can monitor.
 </Table>
 
 <sup>1</sup> The action is not reversible but may produce other events which are.<br />
-<sup>2</sup> Blocks broken by pistons will still be tracked. block-shift only applies to blocks moved.
+<sup>2</sup> The action is not reversible via rollback/restore but the item is available in `/pr vault`<br />
+<sup>3</sup> Blocks broken by pistons will still be tracked. block-shift only applies to blocks moved.
 
 Natural Spam
 ------------

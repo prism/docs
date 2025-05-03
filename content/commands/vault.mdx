@@ -1,0 +1,23 @@
+import Command from '../../components/command.tsx'
+
+# /pr vault
+
+<Command command='vault (parameters)' alias='v' />
+
+Items are frequently too complex to represent in chat.
+
+The **Vault** will show you a virtual inventory of items found in the parameter query.
+
+The vault command only accepts `action` parameters for item action types, such as `item-drop`, `item-remove`, etc.
+
+If there are many items found, you can view additional "pages" by clicking the "Next Page" paper button in the bottom row of the inventory.
+
+## Reversing
+
+By removing an item from the vault, you're effectively reversing the action. When you close the inventory the action will be marked `reversed` just like a rollback.
+
+Removing items from the vault will also be logged to your server's log file.
+
+```
+[prism] viveleroi took netherite_pickaxe for activity #898 from the vault inventory
+```

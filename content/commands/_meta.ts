@@ -6,7 +6,6 @@ const meta: MetaRecord = {
     cache: {},
     lookup: {},
     near: {},
-    peek: {},
     teleport: {},
     rollback: {},
     restore: {},
@@ -15,6 +14,7 @@ const meta: MetaRecord = {
     report: {},
     purge: {},
     reload: {},
+    vault: {},
 }
  
 export default meta
