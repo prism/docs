@@ -4,6 +4,7 @@ const meta: MetaRecord = {
     index: {},
     a: {},
     at: {},
+    b: {},
     before: {},
     btag: {},
     bounds: {},
