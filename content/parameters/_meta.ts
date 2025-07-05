@@ -16,6 +16,7 @@ const meta: MetaRecord = {
     itag: {},
     m: {},
     p: {},
+    q: {},
     r: {},
     reversed: {},
     since: {},

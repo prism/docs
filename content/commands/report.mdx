@@ -2,15 +2,38 @@ import Command from '../../components/command.tsx'
 
 # /pr report
 
+## Modification Queue Report
+
+<Command command="report modification-queue" />
+
+Displays current statistics about the modification queue.
+
+## Partial Modifications Report
+
+<Command command="report partial" />
+
+When performing a rollback/restore modification, you may see a message that some activities were partially applied.
+
+Either by clicking on that value or by running this report command, you can see a more detailed explanation about why a change was partially applied.
+
+For example, if you rollback cobble formed from lava, the cobble needs to be removed but the lava is blacklisted by default and should not be restored.
+
+This leads to a partial modification.
+
+### Partial Application Reasons
+
+* Blacklisted - The block/entity/item was blacklisted in your configuration. TNT for example.
+
+## Skipped Modification Report
+
 <Command command="report skips" />
 
 When performing a rollback/restore modification, you may see a message that some activities were skipped.
 
 Either by clicking on that value or by running this report command, you can see a more detailed explanation about why a change was skipped.
 
-## Skip Reasons
+### Skip Reasons
 
 * Already Set - The block is already set and the modification is not necessary.
-* Blacklisted - The block/entity/item was blacklisted in your configuration. TNT for example.
 * Not Applicable - The modification isn't applicable due to a very specific scenario.
 * Not Implemented - The activity has no rollback/restore support.

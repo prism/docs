@@ -2,12 +2,16 @@ import Command from '../../components/command.tsx'
 
 # /pr purge
 
-<Command command="purge" />
+<Command command="purge start" />
 
-The purge command will manually start a custom data deletion process.
+The purge start command will manually start a custom data deletion process.
 
 This command accepts parameters just like lookup/modifications and will permanently delete matching data.
 
 To understand the parameters available and their use, please see [Parameters](/parameters).
 
 To understand the finer points of purges and their impact on databases, please [Purges](/features/purges).
+
+<Command command="purge cancel" />
+
+The purge cancel command cancels the currently running purge process.

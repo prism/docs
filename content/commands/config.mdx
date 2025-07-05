@@ -1,0 +1,28 @@
+import { Callout } from 'nextra/components'
+import Command from '../../components/command.tsx'
+
+# /pr config
+
+<Command command="config reload" />
+
+Reloads configuration files.
+
+# /pr locales
+
+
+<Command command="locales reload" />
+
+Reloads messaging and localization files.
+
+# /pr storage-config
+
+
+<Command command="storage-config write-hikari" />
+
+<Callout type='info'>Storage/database changes need a reboot to apply and do not have a `reload` command.</Callout>
+
+Writes a `hikari.properties` file to the `storage` directory using the current configuration.
+
+This is intended to be a starting point for a custom HikariCP configuration.
+
+<Callout type='info'>Hikari-only configurations do not support the "spy" debugging feature.</Callout>
