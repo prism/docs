@@ -1,23 +1,23 @@
 import { Callout } from 'nextra/components'
 import Command from '../../components/command.tsx'
 
-# /pr config
+# /pr configs 
 
-<Command command="config reload" />
+## Prism Configuration
 
-Reloads configuration files.
+<Command command="pr configs prism reload" />
 
-# /pr locales
+Reloads "prism" configuration file.
 
+## Locales Files
 
-<Command command="locales reload" />
+<Command command="pr configs locales reload" />
 
 Reloads messaging and localization files.
 
-# /pr storage-config
+## Sotrage Configuration
 
-
-<Command command="storage-config write-hikari" />
+<Command command="pr configs storage write-hikari" />
 
 <Callout type='info'>Storage/database changes need a reboot to apply and do not have a `reload` command.</Callout>
 

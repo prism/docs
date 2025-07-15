@@ -1,0 +1,64 @@
+import { Callout, Tabs } from 'nextra/components'
+
+# Database Reset
+
+Use these queries to completely drop all tables (you may need to change the prefix if you've customized it).
+
+SQLite and H2 users can delete the db files in the prism folder.
+
+<Callout type='error'>This deletes all prism data! Only use during testing or complete server resets.</Callout>
+
+
+<Tabs items={['postgres', 'mysql/mariadb']}>
+  <Tabs.Tab>
+```sql
+DROP FUNCTION IF EXISTS public.prism_create_activity;
+DROP FUNCTION IF EXISTS public.prism_get_or_create_action;
+DROP FUNCTION IF EXISTS public.prism_get_or_create_block;
+DROP FUNCTION IF EXISTS public.prism_get_or_create_cause;
+DROP FUNCTION IF EXISTS public.prism_get_or_create_entity_type;
+DROP FUNCTION IF EXISTS public.prism_get_or_create_item;
+DROP FUNCTION IF EXISTS public.prism_get_or_create_player;
+DROP FUNCTION IF EXISTS public.prism_get_or_create_world;
+
+DROP TABLE IF EXISTS prism_activities;
+DROP TABLE IF EXISTS prism_actions;
+DROP TABLE IF EXISTS prism_blocks;
+DROP TABLE IF EXISTS prism_causes;
+DROP TABLE IF EXISTS prism_entity_types;
+DROP TABLE IF EXISTS prism_items;
+DROP TABLE IF EXISTS prism_meta;
+DROP TABLE IF EXISTS prism_players;
+DROP TABLE IF EXISTS prism_worlds;
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```sql
+SET foreign_key_checks = 0;
+
+DROP TABLE prism_actions;
+DROP TABLE prism_blocks;
+DROP TABLE prism_causes;
+DROP TABLE prism_entity_types;
+DROP TABLE prism_items;
+DROP TABLE prism_meta;
+DROP TABLE prism_players;
+DROP TABLE prism_worlds;
+DROP TABLE prism_activities;
+
+SET foreign_key_checks = 1;
+
+DROP PROCEDURE IF EXISTS prism_create_activity;
+DROP PROCEDURE IF EXISTS prism_get_or_create_action;
+DROP PROCEDURE IF EXISTS prism_get_or_create_block;
+DROP PROCEDURE IF EXISTS prism_get_or_create_cause;
+DROP PROCEDURE IF EXISTS prism_get_or_create_entity_type;
+DROP PROCEDURE IF EXISTS prism_get_or_create_item;
+DROP PROCEDURE IF EXISTS prism_get_or_create_player;
+DROP PROCEDURE IF EXISTS prism_get_or_create_world;
+```
+  </Tabs.Tab>
+</Tabs>
+
+
+

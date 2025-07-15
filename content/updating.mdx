@@ -1,3 +1,5 @@
+import { Steps } from 'nextra/components'
+
 # Updating
 
 Updating Prism is straightforward, but it's important to follow the correct steps to ensure a smooth transition.
@@ -6,12 +8,18 @@ Updating Prism is straightforward, but it's important to follow the correct step
 
 Releases are intended to be stable and are suitable for production use. 
 
-### Database Updates
+<Steps>
 
+### Configuration Files
+
+Additions to the configuration files will automatically appear. Changes will not, but these will be rare and should only ever occur in major version changes.
+
+### Database Updates
+ 
 Any database changes should be applied automatically when you start the server. However, schema changes on existing databases with a lot of data may take time. We'll try to indicate any releases with schema changes in the release notes, so you can try to plan ahead.
 
 ### "libs" Folder
-
+ 
 If Prism uses a new/updated library it will automatically download that file into the `libs` folder.
 
 Release versions should never _require_ you to delete the `libs` folder, but currently Prism will not delete previous library jar files, so it can be beneficial to file cleanliness to delete the folder every update.
@@ -19,6 +27,8 @@ Release versions should never _require_ you to delete the `libs` folder, but cur
 ### "locales" Folder
 
 New entries into locales files should be automatic. Changes to existing entries are not. If in-game messages aren't working correctly, you may need to deleted the `locales` folder and restart the server.
+
+</Steps>
 
 ## Betas/Dev Builds
 

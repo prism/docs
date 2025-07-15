@@ -1,15 +1,18 @@
 import type { MetaRecord } from 'nextra'
- 
+
 const meta: MetaRecord = {
   index: {},
   'getting-started': {},
   updating: {},
   databases: {},
   configs: {},
+  concepts: {},
   actions: {},
   commands: {},
   parameters: {},
-  flags: {}
+  misc: {},
+  flags: {},
+  troubleshooting: {}
 }
  
 export default meta

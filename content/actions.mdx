@@ -9,7 +9,7 @@ import { Table } from 'nextra/components'
 The following is a list of all actions Prism v4 can monitor.
 
 - `Default` indicates whether Prism monitors this action by default. Some are disabled for performance or spam reasons.
-- `Reversible` indicates whether the action can be reversed (see [Modifications](./features/modifications))
+- `Reversible` indicates whether the action can be reversed (see [Modifications](./concepts/modifications))
 
 ## Actions List
 
@@ -103,6 +103,12 @@ The following is a list of all actions Prism v4 can monitor.
       <Table.Td>No<sup>1</sup></Table.Td>
     </Table.Tr>
     <Table.Tr>
+      <Table.Td><code>entity-death</code></Table.Td>
+      <Table.Td>mobs died</Table.Td>
+      <Table.Td>Yes</Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
       <Table.Td><code>entity-dye</code></Table.Td>
       <Table.Td>player dyes entity (aka sheep)</Table.Td>
       <Table.Td>No</Table.Td>
@@ -112,12 +118,6 @@ The following is a list of all actions Prism v4 can monitor.
       <Table.Td><code>entity-eat</code></Table.Td>
       <Table.Td>entity eats (aka sheep)</Table.Td>
       <Table.Td>No</Table.Td>
-      <Table.Td>Yes</Table.Td>
-    </Table.Tr>
-    <Table.Tr>
-      <Table.Td><code>entity-kill</code></Table.Td>
-      <Table.Td>mobs killed</Table.Td>
-      <Table.Td>Yes</Table.Td>
       <Table.Td>Yes</Table.Td>
     </Table.Tr>
     <Table.Tr>

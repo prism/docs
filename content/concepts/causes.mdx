@@ -1,0 +1,28 @@
+# Cause and (A)ffect
+
+Prism distinctly captures both a _cause_ and _affected_ object with most activities (some are purely informational, and only have a cause, like player-join etc).
+
+A "cause" can be a player, block, entity, or generically-named concept.
+
+An affected object can be a player, block, entity, or item.
+
+Examples:
+
+- Player - "viveleroi broke Dirt"
+- Block - "Fire burned Oak Log"
+- Entity - "Sheep ate Grass"
+- Named Cause - "gravity broke sand"
+
+## Parameters
+
+To give you more control over what you're looking for, player, block, and entity parameters have variants to specify cause or affected.
+
+[block](/parameters/b) and [entity](/parameters/e) parameters search for _affected_ blocks/entities.
+
+To look exclusively for activities they _caused_, use [block cause](/parameters/bc) or [entity cause](/parameters/ec) parameters.
+
+The [player parameter](/parameters/p) always searched for both, so for consistency it has remained. It really only impacts player death and maybe a few other events, and there's realistically no difference.
+
+To search only for player's as the cause (for example, the killer), use [pc](/parameters/pc).
+
+To search only for player's affected (for example, the victim), use [pa](/parameters/pa).
