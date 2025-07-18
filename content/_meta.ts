@@ -5,7 +5,7 @@ const meta: MetaRecord = {
   'getting-started': {},
   updating: {},
   databases: {},
-  configs: {},
+  configuration: {},
   concepts: {},
   actions: {},
   commands: {},
