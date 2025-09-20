@@ -1,0 +1,24 @@
+# Alerts
+
+Alerts notify staff (or anyone with the `prism.alerts.receive` permission) of certain events in the game.
+
+Alerts can be enabled/disabled, allow custom colors, lists of materials, etc.
+
+You can configure them to apply only to non-creative gamemodes, and they will ignore anyone with the `prism.alerts.bypass` permission.
+
+## Block Break
+
+Block break alerts are primarily intended for use with mining. They alert receivers when a player breaks a specific block,
+and includes the light level and whether the player had night vision.
+
+## Block Place
+
+Block place alerts trigger when a player places a configured block.
+
+For example, `tnt` triggers an alert when a player places TNT.
+
+## Item Use
+
+Item use alerts trigger when a player right clicks on a block with a configured item.
+
+For example `flint_and_steel` triggers an alert when a player tries to light a fire.

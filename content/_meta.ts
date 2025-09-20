@@ -10,8 +10,8 @@ const meta: MetaRecord = {
   actions: {},
   commands: {},
   parameters: {},
-  misc: {},
   flags: {},
+  misc: {},
   troubleshooting: {}
 }
  
