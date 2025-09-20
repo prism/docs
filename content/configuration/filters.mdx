@@ -44,7 +44,16 @@ For example if you define `actions=["block-break"]` **and** `worlds=[MikesWorld]
 
 Some conditions are different ways of defining the same rule, so you can mix and match them.
 
-For example if you define `materials=[diamond_ore]` and `block-tags=["minecraft:dirt"]` the filter is going to match *either* a material named "diamond_ore" **or** anything tagged "minecraft:dirt".
+For example if you define a condition with multiple values:
+
+```hocon
+affected-block {
+    materials=[diamond_ore]
+    tags=["minecraft:dirt"]
+}
+```
+
+... the filter is going to match *either* a material named "diamond_ore" **or** any block tagged "minecraft:dirt".
 
 You can define as many conditions as you need, but you must have at least one.
 
@@ -55,24 +64,25 @@ Condition *values* work like parameter values - any value in the list that match
 The following four conditions represent different things. A filter only applies to an activity if it matches a value in each defined condition.
 
 * `actions` - A list of actions (see [Actions](/actions))
-* `causes` - A list of causes
+* `named-causes` - A list of "named" causes ("nature", etc)
 * `permissions` - A list of player permissions (see [Permissions](/configuration/permissions))
 * `worlds` - A list of world names
 
-**Materials (Items/Blocks)**
+**Blocks**
 
-The following three conditions are different ways of defining materials. You can mix and match any of them. All that matters for determining if the filter applies is if a material (item/block) matches a material in **any** of these conditions.
+Under `affected-block` or `cause-block` properties, you can define [Block Tags](https://minecraft.wiki/w/Block_tag_(Java_Edition)) and/or [Materials](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html).
 
-* `block-tags` - A list of block tags (see [Block Tags](https://minecraft.wiki/w/Block_tag_(Java_Edition)))
-* `item-tags` - A list of item tags (see [Item Tags](https://minecraft.wiki/w/Item_tag_(Java_Edition)))
-* `materials` - A list of block or item [Material](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+To understand affected vs cause blocks, see the [Cause and Affect](/concepts/causes) documentation.
 
 **Entity Types**
 
-The following two conditions are different ways of defining entity types. You can mix and match any of them. All that matters for determining if the filter applies is if an entity type matches a value in **any** of these conditions.
+Under `affected-entity-type` or `cause-entity-type` properties, you can define [Entity Type Tags](https://minecraft.wiki/w/Entity_type_tag_(Java_Edition)) and/or [Entity Types](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html).
 
-* `entity-types` - A list of [Entity Types](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html)
-* `entity-type-tags` - A list of entity type tags (see [Entity Type Tags](https://minecraft.wiki/w/Entity_type_tag_(Java_Edition)))
+To understand affected vs cause blocks, see the [Cause and Affect](/concepts/causes) documentation.
+
+**Items**
+
+Under the `item` property, you can define [Item Tags](https://minecraft.wiki/w/Item_tag_(Java_Edition)) and/or [Materials](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html).
 
 To achieve our example of ignoring common blocks in a resource world, we could use this:
 
@@ -82,16 +92,18 @@ filters=[
         name="Ignore common blocks"
         behavior=IGNORE
         conditions {
-            # Use some convenient Minecraft tags to bulk list generic blocks
-            block-tags=[
-                "minecraft:dirt",
-                "minecraft:base_stone_overworld",
-                "minecraft:sand"
-            ]
-            # Add gravel since it's not in any of those tags
-            materials=[
-                gravel
-            ]
+            affected-block {
+                # Use some convenient Minecraft tags to bulk list generic block
+                tags=[
+                    "minecraft:dirt",
+                    "minecraft:base_stone_overworld",
+                    "minecraft:sand"
+                ]
+                # Add gravel since it's not in any of those tags
+                materials=[
+                    gravel
+                ]
+            }
             worlds=[
                 resource
             ]
@@ -115,9 +127,11 @@ filters=[
         name="Ores in resource"
         behavior=ALLOW
         conditions {
-            block-tag=[
-                prism:all_ores
-            ]
+            affected-block {
+                tags=[
+                    prism:all_ores
+                ]
+            }
             worlds=[
                 resource
             ]
@@ -161,14 +175,16 @@ filters=[
         name="Ignore common blocks"
         behavior=IGNORE
         conditions {
-            materials=[
-                gravel
-            ]
-            block-tags=[
-                "minecraft:dirt",
-                "minecraft:base_stone_overworld",
-                "minecraft:sand"
-            ]
+            affected-block {
+                materials=[
+                    gravel
+                ]
+                tags=[
+                    "minecraft:dirt",
+                    "minecraft:base_stone_overworld",
+                    "minecraft:sand"
+                ]
+            }
         }
     },
     {
@@ -184,9 +200,11 @@ filters=[
         name="Allow quartz in nether"
         behavior=ALLOW
         conditions {
-            materials=[
-                nether_quartz_ore
-            ]
+            affected-block {
+                materials=[
+                    nether_quartz_ore
+                ]
+            }
             worlds=[world_nether]
         }
     }
