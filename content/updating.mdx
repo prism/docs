@@ -16,7 +16,17 @@ Additions to the configuration files will automatically appear. Changes will not
 
 ### Database Updates
  
-Any database changes should be applied automatically when you start the server. However, schema changes on existing databases with a lot of data may take time. We'll try to indicate any releases with schema changes in the release notes, so you can try to plan ahead.
+Database changes will be applied automatically when you start the server. 
+
+However, schema changes on large databases can take time, which will cause problems if done when the server is starting. 
+
+To accomodate these users we provide a command-line schema updater that does not require the Minecraft server to be running.
+
+With your Minecraft server offline, database backed up for safety, run the following command to initialize a schema update:
+
+```bash
+java -jar prism-paper-<version>.jar schema-update
+```
 
 ### "libs" Folder
  

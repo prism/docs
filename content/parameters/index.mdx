@@ -9,3 +9,11 @@ If no parameters are provided, Prism will use any configured defaults.
 Parameters act as an "AND" condition, but parameters that support multiple entries act as an "OR". You may need to run multiple commands if your parameters might conflict. For example `p:viveleroi m:stone e:cow` will return "No Results" because there's no way all three values can exist in a single record.
 
 However, a single parameter that accepts multiple entries will work as expected. `p:kermit,fozzie m:stone` will find records in which kermit **or** fozzie acted upon stone.
+
+# Parameter Query Performance
+
+Prism's default database schema has indexes for the most common parameters: world, location, player, and time.
+
+Queries that use one or more of these parameters will perform the best. Queries that do not use any of them will perform the worst.
+
+If you commonly need to use parameters not included in the default indexes, you should consider adding custom indexes.

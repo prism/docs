@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components'
+
 # Players
 
 Use the `p:` parameter to list one or more players.
@@ -8,4 +10,6 @@ Supports multiple (comma seperated)!
 
 Searches for activities caused by a player.
 
-`p:viveleroi` will query activities in which `viveleroi` was either the cause of an action, or affected by an action.
+`p:viveleroi` will query activities in which `viveleroi` was the cause of the action.
+
+<Callout type='info'>Prior to Prism 4.3 this parameter also included a search for players affected by an action (player-death). To find that data now, use `pa:<player>`</Callout>
