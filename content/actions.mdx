@@ -1,4 +1,5 @@
 import { Table } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Actions
 
@@ -12,7 +13,6 @@ The following is a list of all actions Prism v4 can monitor.
 - `Reversible` indicates whether the action can be reversed (see [Modifications](../concepts/modifications))
 
 ## Actions List
-
 
 <Table>
   <thead>
@@ -336,3 +336,21 @@ Several events are disabled by default because they _mostly_ log natural events 
 - `fluid-flow` - Tracks the flow of fluids. Strongly recommend a drain tool. Still tracks flow breaking blocks.
 
 If you plan to enable any of these, we *strongly* recommend you use a filter or increase their purge rate.
+
+## Aggregration
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+A few events are aggregrated by default to reduce spam: `hopper-insert`, `hopper-remove`, and `item-dispense`.
+
+Hoppers insert or remove one item every 8 ticks by default. Prism usually would record individual events for each, leading to 128 database inserts for a single stack.
+
+With hundreds of hoppers in a busy automated farm this can lead to millions of records which are not useful.
+
+Instead, Prism aggregrates these by time or stack size into fewers activities.
+
+For every unique item type and location, Prism counts how many items were moved. Once the total hits the max stack size or the configured aggregration time expires, it writes one record.
+
+With default settings this can lead to a 99% reduction in hopper activity records.
+
+Instead of seeing `hopper insert 1 dirt x64` you would see `hopper insert 64 dirt`. 

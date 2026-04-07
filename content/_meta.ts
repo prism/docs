@@ -12,7 +12,9 @@ const meta: MetaRecord = {
   parameters: {},
   flags: {},
   misc: {},
-  troubleshooting: {}
+  troubleshooting: {},
+  api: {},
+  sql: {}
 }
  
 export default meta

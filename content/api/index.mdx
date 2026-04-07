@@ -1,0 +1,149 @@
+
+
+
+import { Callout, Tabs } from 'nextra/components'
+
+#  API
+
+Prism offers an API for plugins to interact with, allowing your plugin to:
+
+- Registration of custom actions.
+- Recording custom actions as activities.
+- Querying recorded activities from storage.
+
+## Example
+
+We have published a simple example plugin: [https://github.com/prism/prism/tree/main/prism-paper-example-plugin](https://github.com/prism/prism/tree/main/prism-paper-example-plugin)
+
+## Setup
+
+Configure your java project to reference the prism api dependency.
+
+Be sure to add "prism" to your plugin's `depend` list in `plugin.yml` to ensure the API is available at runtime.
+
+<Tabs items={['gradle', 'maven']}>
+  <Tabs.Tab>
+```groovy
+dependencies {
+  compileOnly("org.prism_mc.prism:prism-paper-api:VERSION")
+}
+
+repositories {
+  maven { url = 'https://nexus.darkhelmet.network/repository/maven-releases/' }
+}
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```xml
+<repositories>does
+  <repository>
+      <id>darkhelmet</id>
+      <url>https://nexus.darkhelmet.network/repository/maven-releases/</url>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+      <groupId>org.prism_mc.prism</groupId>
+      <artifactId>prism-paper-api</artifactId>
+      <version>VERSION</version>
+      <scope>provided</scope>
+  </dependency>
+</dependencies>
+```
+  </Tabs.Tab>
+</Tabs>
+
+## Custom Action Usage
+
+Custom actions allow your plugin to record activities that aren't natively supported by Prism. Our example plugin listens for players toggling sprinting.
+
+```java
+// 1. Get the Prism API via Bukkit's ServicesManager:
+RegisteredServiceProvider<PrismPaperApi> provider = Bukkit.getServicesManager().getRegistration(PrismPaperApi.class);
+
+// 2. Register a custom action type
+ActionType sprintToggle = prism.actionTypeRegistry().registerGenericAction("sprint-toggle");
+
+// 3. Create an action via the factory
+var action = prism.actionFactory().createGenericAction(sprintToggle, desc);
+
+// 4. Build the activity for this action
+var activity = PaperActivity.builder()
+  .action(action)
+  .location(event.getPlayer().getLocation())
+  .cause(event.getPlayer())
+  .build();
+
+// 5. Add to the recording queue
+prism.recordingService().addToQueue(activity);
+```
+
+If actions record modifications, you can define what a rollback and/or restore would do by implementing a `ModificationHandler` and registering it to the action type. 
+
+```java
+// Register with:
+prism
+  .actionTypeRegistry()
+  .registerBlockAction("custom-event", ActionResultType.REMOVES, true, new CustomEventHandler());
+
+// The class:
+private class CustomEventHandler implements ModificationHandler {
+  @Override
+  public ModificationResult applyRollback(
+    ModificationRuleset modificationRuleset,
+    Object owner,
+    Activity activityContext,
+    ModificationQueueMode mode
+  ) {
+    if (mode == ModificationQueueMode.COMPLETING) {
+      // do something
+    }
+
+    return ModificationResult.builder().activity(activityContext).statusFromMode(mode).build();
+  }
+
+  @Override
+  public ModificationResult applyRestore(
+    ModificationRuleset modificationRuleset,
+    Object owner,
+    Activity activityContext,
+    ModificationQueueMode mode
+  ) {
+    if (mode == ModificationQueueMode.COMPLETING) {
+      // do something
+    }
+
+    return ModificationResult.builder().activity(activityContext).statusFromMode(mode).build();
+  }
+}
+```
+
+### Querying Activities
+
+Prism's activity query builder allows you to easily build queries without writing any SQL. This object gets passed to prism's storage service and executed. However, you need to run this in an async task to avoid blocking the main server thread.
+
+```java
+// Query the last 5 sprint-toggle activities
+Bukkit.getAsyncScheduler()
+  .runNow(this, task -> {
+    try {
+      var query = PaperActivityQuery.builder()
+        .actionTypeKeys(List.of("sprint-toggle"))
+        .lookup(true)
+        .grouped(false)
+        .limit(5)
+        .build();
+
+      List<Activity> results = prism.storageAdapter().queryActivities(query);
+
+      sender.sendMessage("Last " + results.size() + " sprint-toggle activities:");
+
+      for (Activity activity : results) {
+          sender.sendMessage(" - " + activity.action().descriptor() + " at " + activity.coordinate());
+      }
+    } catch (Exception e) {
+      // handle error
+    }
+  });
+```

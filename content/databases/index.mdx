@@ -52,31 +52,40 @@ We've tried our best to create a good schema. We'll continue to make improvement
 
 Out of the box, Prism does a lot for performance.
 
-**Asynchronous Tasks**
+#### Asynchronous Tasks
 
 Prism executes queries on another thread, so the game thread is not blocked.
 
-**Caching**
+#### Caching
 
-When not using stored procedures, Prism caches data while the server is running to reduce the number of network requests. See [Caches](/concepts/caches).
+Prism caches data while the server is running to reduce the number of network requests. See [Caches](/concepts/caches).
 
-**Connection Pooling**
+#### Connection Pooling
 
 Prism uses a connection pool (HikariCP). This reduces overhead needed to communicate with the database server by reusing connections. Reduce, reuse, recycle!
 
-**Statement Batching**
+#### Statement Batching
 
 Activities are recorded in batches. By recording several at a time we can reduce how often we're communicating with the database server. This is especially useful when the database server is on another machine.
 
 You can adjust the batch size as needed - lower sizes send batches more often but in smaller chunks. Larger sizes less often and in larger chunks.
 
-**Hikari Optimizations**
+#### Hikari Optimizations
 
 Prism uses the recommended Hikari optimizations for MySQL/MariaDB servers. This includes settings like increased statement caching, etc.
 
-**Stored Procedures**
+#### Stored Procedures
 
 Stored procedures/functions can move complex db queries/logic to the database server which reduces network traffic. Things that might take multiple queries from Prism become only a single procedure call.
 
 <Callout type='info'>This feature is limited to users who have database permission to create procedures/functions. That's commonly restricted on shared hosts, especially in MySQL/MariaDB.</Callout>
 
+#### Parallel Writes
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+Prism writes data to your database in batches. A single writer is usually plenty because the default batch size is 2000. However, if you want extra write thoughput without changing batch size, you can enable parallel writes.
+
+Prism allows up to 4 connections to be used for writes. This is a 4x increase in write throughput.
+
+We highly recommend using this feature with stored procedures to avoid write conflicts. Prism is designed to handle them, but it'll be more beneficial.
