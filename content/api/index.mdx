@@ -30,15 +30,23 @@ dependencies {
 
 repositories {
   maven { url = 'https://nexus.darkhelmet.network/repository/maven-releases/' }
+  maven { url = 'https://nexus.darkhelmet.network/repository/maven-snapshots/' }
 }
 ```
   </Tabs.Tab>
   <Tabs.Tab>
 ```xml
-<repositories>does
+<repositories>
   <repository>
-      <id>darkhelmet</id>
+      <id>prism-releases</id>
       <url>https://nexus.darkhelmet.network/repository/maven-releases/</url>
+  </repository>
+  <repository>
+      <id>prism-snapshots</id>
+      <url>https://nexus.darkhelmet.network/repository/maven-snapshots/</url>
+      <snapshots>
+          <enabled>true</enabled>
+      </snapshots>
   </repository>
 </repositories>
 
