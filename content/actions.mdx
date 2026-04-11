@@ -253,6 +253,18 @@ The following is a list of all actions Prism v4 can monitor.
       <Table.Td>Yes</Table.Td>
     </Table.Tr>
     <Table.Tr>
+      <Table.Td><code>player-chat</code></Table.Td>
+      <Table.Td>player chatting</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>player-command</code></Table.Td>
+      <Table.Td>player used command</Table.Td>
+      <Table.Td>No</Table.Td>
+      <Table.Td>No</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
       <Table.Td><code>player-death</code></Table.Td>
       <Table.Td>player died</Table.Td>
       <Table.Td>Yes</Table.Td>
@@ -313,6 +325,18 @@ The following is a list of all actions Prism v4 can monitor.
       <Table.Td>No</Table.Td>
     </Table.Tr>
     <Table.Tr>
+      <Table.Td><code>worldedit-break</code></Table.Td>
+      <Table.Td>block broken by WorldEdit</Table.Td>
+      <Table.Td>No<sup>4</sup></Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td><code>worldedit-place</code></Table.Td>
+      <Table.Td>block placed by WorldEdit</Table.Td>
+      <Table.Td>No<sup>4</sup></Table.Td>
+      <Table.Td>Yes</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
       <Table.Td><code>xp-pickup</code></Table.Td>
       <Table.Td>player gains XP</Table.Td>
       <Table.Td>No</Table.Td>
@@ -323,7 +347,8 @@ The following is a list of all actions Prism v4 can monitor.
 
 <sup>1</sup> The action is not reversible but may produce other events which are.<br />
 <sup>2</sup> The action is not reversible via rollback/restore but the item is available in `/pr vault`<br />
-<sup>3</sup> Blocks broken by pistons will still be tracked. block-shift only applies to blocks moved.
+<sup>3</sup> Blocks broken by pistons will still be tracked. block-shift only applies to blocks moved.<br />
+<sup>4</sup> WorldEdit required.
 
 Natural Spam
 ------------
