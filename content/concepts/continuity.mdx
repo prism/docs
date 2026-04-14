@@ -1,0 +1,57 @@
+import { Callout } from 'nextra/components'
+
+# Continuity
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+When Prism loses connection to the database, activties build up in the queue.
+
+Possible reasons include:
+
+- The database server is offline
+- Network issues are preventing connections
+- The database is not responding
+
+Prism automatically retries the connection at regular intervals. If the connection is re-established, Prism processes the queued activities.
+
+If the connection cannot be re-established, Prism has a configurable feature called "write-ahead logs" or "wal" for short.
+
+## Write-Ahead Logs (WAL)
+
+When "wal" is enabled, Prism writes incoming activities to a log file on disk before attempting to process them. This ensures that no activities are lost even if the database connection is down.
+
+When the database connection is restored, Prism reads the log file and processes the activities.
+
+To enable "wal", set the `wal` option to `on-demand` or `always` in your Prism configuration:
+
+```json
+recording {
+    {
+    "wal": "on-demand"
+    }
+}
+```
+
+## WAL Modes
+
+### "disabled"
+
+By default, wal is disabled. Writing activities to disk incurs somes overhead. You must choose to enable the feature based on your needs.
+
+### "on-demand"
+
+Setting WAL to `on-demand` means prism will write to disk only when the database connection is lost.
+
+Disk-write overhead is minimal, even trivial on fast disks like SSDs.
+
+Prism will only replay the data log if that last was "clean" (not crashed).
+
+### "always"
+
+Setting WAL to `always` means prism will always write to disk before storing activities in the database.
+
+This is beneficial in the event of an unclean shutdown or crash. Prism writes to the wal on world save, attempting to minimize data being recorded for world changes lost between saves. However, there is still a risk that prism data and world data can lose parity.
+
+Disk-write overhead is constant, especially on busy servers. 
+
+We generally don't recommend using `always` as the benefits are marginal for the overhead.
