@@ -1,0 +1,9 @@
+import Command from '../../components/command.tsx'
+
+# /pr undo
+
+<Command command="undo" />
+
+The undo command will reverse any reversible changes you've just applied.
+
+This relies on in-memory data for a limited timeframe after a rollback/restore. Undo is no longer available after: this timeframe, running a new modification, or logging out.

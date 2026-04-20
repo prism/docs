@@ -1,5 +1,4 @@
-import { Table } from 'nextra/components'
-import { Callout } from 'nextra/components'
+import { Callout, Table } from 'nextra/components'
 
 # Actions
 
@@ -346,7 +345,7 @@ The following is a list of all actions Prism v4 can monitor.
 </Table>
 
 <sup>1</sup> The action is not reversible but may produce other events which are.<br />
-<sup>2</sup> The action is not reversible via rollback/restore but the item is available in `/pr vault`<br />
+<sup>2</sup> The action is not reversible via rollback/restore but the item is available in `/pr vault`. See [Items](#items)<br />
 <sup>3</sup> Blocks broken by pistons will still be tracked. block-shift only applies to blocks moved.<br />
 <sup>4</sup> WorldEdit required.
 
@@ -379,3 +378,13 @@ For every unique item type and location, Prism counts how many items were moved.
 With default settings this can lead to a 99% reduction in hopper activity records.
 
 Instead of seeing `hopper insert 1 dirt x64` you would see `hopper insert 64 dirt`. 
+
+## Items
+
+Items in Minecraft are fungible and their lifecycle is unbounded (craft, smelt, trade, drop, despawn, die with them, put in ender chest across worlds, etc.). Any player or plugin can perform these actions and even more.
+
+It's impossible for Prism to track items so Prism can never "remove" "created" items. It can only "create" "destroyed" items.
+
+Example: You rollback 64 diamonds being removed from a chest. That modification is easy because Prism spawns in 64 diamonds.
+
+However, Prism can't "take" 64 diamonds from the player who took them because there's an infinite number of ways they could have been moved, used, or removed them since.
