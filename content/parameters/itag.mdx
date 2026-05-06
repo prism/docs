@@ -1,3 +1,5 @@
+import Negation from '../../components/negation.tsx'
+
 # Item Tags
 
 Use the `itag:[items tag]` parameter to more efficiently search for materials included in the tag.
@@ -11,3 +13,7 @@ You can even supply multiple tags, like `itag:minecraft:planks,minecraft:logs`.
 Defining your own tags would be an extremely powerful way to group materials. 
 
 Read more about [Tags](https://minecraft.wiki/w/Tag).
+
+## Negation
+
+<Negation parameter='itag!:minecraft:pickaxes' note='Queries all items except those in the "minecraft:pickaxes" tag' />

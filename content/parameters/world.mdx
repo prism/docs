@@ -1,3 +1,5 @@
+import Negation from '../../components/negation.tsx'
+
 # World
 
 Use the `world:[worldname]` parameter to confine the search to the given world.
@@ -5,3 +7,7 @@ Use the `world:[worldname]` parameter to confine the search to the given world.
 For example, `world:resource` would include records logged in the world named "resource".
 
 For you current world, `in:world` works exactly the same.
+
+## Negation
+
+<Negation parameter='world!:resource' note='Queries all worlds except "resource"' />

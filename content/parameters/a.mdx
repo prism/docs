@@ -1,3 +1,5 @@
+import Negation from '../../components/negation.tsx'
+
 # Actions
 
 Use the `a:` parameter to list one or more actions (see [Actions](/actions)).
@@ -12,3 +14,7 @@ The "action family" is the word following the hyphen in the action key. So, `bre
 To lookup all "break" actions, use: `/pr l a:break` (includes **any** actions that match `*-break`)
 
 To lookup multiple specific actions, use `/pr l a:block-break,block-place` (includes **only** results for these two actions)
+
+## Negation
+
+<Negation parameter='a!:break' note='Queries all actions except "break"' />

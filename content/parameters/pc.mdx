@@ -1,3 +1,5 @@
+import Negation from '../../components/negation.tsx'
+
 # Players Cause
 
 Use the `pc:` parameter to list one or more players that caused an action. This is simply an alias for `p:[playername]`.
@@ -9,3 +11,7 @@ Supports multiple (comma seperated)!
 Searches for activities caused by a player.
 
 `pc:viveleroi` will query activities in which `viveleroi` was the cause.
+
+## Negation
+
+<Negation parameter='pc!:viveleroi' note='Queries all players except "viveleroi"' />

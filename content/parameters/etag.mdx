@@ -1,3 +1,5 @@
+import Negation from '../../components/negation.tsx'
+
 # Entity Type Tags
 
 Use the `etag:[entity type tag]` parameter to more efficiently search for entities included in the tag.
@@ -11,3 +13,7 @@ You can even supply multiple tags, like `etag:minecraft:aquatic,minecraft:boat`.
 Defining your own tags would be an extremely powerful way to group entity types. 
 
 Read more about [Tags](https://minecraft.wiki/w/Tag).
+
+## Negation
+
+<Negation parameter='etag!:minecraft:aquatic' note='Queries all entity types except those in the "minecraft:aquatic" tag' />

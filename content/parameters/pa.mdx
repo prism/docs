@@ -1,3 +1,5 @@
+import Negation from '../../components/negation.tsx'
+
 # Affected Players
 
 Use the `pa:` parameter to list one or more players affected by an action.
@@ -9,3 +11,7 @@ Supports multiple (comma seperated)!
 Searches for activities that affected a player.
 
 `pa:viveleroi` will query activities in which `viveleroi` was affected by an action.
+
+## Negation
+
+<Negation parameter='pa!:viveleroi' note='Queries all players except "viveleroi"' />

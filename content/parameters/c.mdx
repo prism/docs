@@ -1,3 +1,5 @@
+import Negation from '../../components/negation.tsx'
+
 # Causes
 
 Use the `c:[causename]` parameter to search for activities with a named cause.
@@ -11,3 +13,7 @@ To search for player-caused activities see [player](../p) or [player cause](../p
 To search for block-caused activities see [block cause](../bc).
 
 To search for entity-caused activities see [block cause](../ec).
+
+## Negation
+
+<Negation parameter='c!:gravity' note='Queries all causes except "gravity"' />

@@ -1,3 +1,5 @@
+import Negation from '../../components/negation.tsx'
+
 # Entity
 
 Use the `e:[entitytype]` parameter to list one or more entity types that were affected by an action.
@@ -9,3 +11,7 @@ Supports multiple (comma seperated)!
 See [Entity Types](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html)
 
 Also see [etag](../etag).
+
+## Negation
+
+<Negation parameter='e!:cow' note='Queries all entities except "cow"' />
