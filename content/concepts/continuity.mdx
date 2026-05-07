@@ -4,7 +4,7 @@ import { Callout } from 'nextra/components'
 
 <Callout type='info'>Available in Prism 4.4 and above.</Callout>
 
-When Prism loses connection to the database, activties build up in the queue.
+When Prism loses connection to the database, activities build up in the queue.
 
 Possible reasons include:
 
@@ -36,7 +36,7 @@ recording {
 
 ### "disabled"
 
-By default, wal is disabled. Writing activities to disk incurs somes overhead. You must choose to enable the feature based on your needs.
+By default, wal is disabled. Writing activities to disk incurs some overhead. You must choose to enable the feature based on your needs.
 
 ### "on-demand"
 
@@ -44,7 +44,7 @@ Setting WAL to `on-demand` means prism will write to disk only when the database
 
 Disk-write overhead is minimal, even trivial on fast disks like SSDs.
 
-Prism will only replay the data log if that last was "clean" (not crashed).
+Prism will only replay the data log if the last shutdown was "clean" (not crashed).
 
 ### "always"
 

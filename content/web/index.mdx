@@ -1,0 +1,86 @@
+import { Callout } from 'nextra/components'
+
+# Web View
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+The Prism web view is an embedded browser-based interface for querying activity data and inspecting server state. It runs inside the Prism plugin — no external service required.
+
+## Enabling
+
+The web server is **disabled by default**. Edit `web` in your Prism config (HOCON):
+
+```hocon
+web {
+    # Enable the embedded web server for browser-based activity queries.
+    enabled = true
+
+    # The port the web server listens on.
+    port = 4040
+
+    # API key for authenticating web requests. Set this to a secure random value before enabling.
+    api-key = "change-me-to-a-long-random-string"
+
+    # Maximum number of results returned per query.
+    max-results = 1000
+}
+```
+
+Restart Prism. If api-key is empty, you'll see an error in the console and the web server will not start.
+
+<Callout type='error'>The API key authorizes full read access to your activity log. Be careful who you share the key with and ensure it's not present in source code. We strongly recommend an SSL-secured reverse proxy to 4040 for public access.</Callout>
+
+## Accessing
+
+Browse to `http://<server-host>:<port>/ (e.g. http://localhost:4040)`.
+
+On first load you'll be prompted with an API Key Required dialog. Paste your api-key value and click Connect — the key is stored in browser local storage so you only enter it once per browser.
+
+## Using
+
+the API key authorizes full read access to your activity log. Don't expose port 4040 publicly without a reverse proxy + TLS, and keep the key out of source control.
+
+#### Activities page (/)
+
+The default landing page. Lists logged activities with filtering by:
+
+- Action type (include / exclude)
+- Cause player and affected player
+- World
+- Block, entity, item — by name or by tag
+- Cause block / cause entity
+- Time (since, before)
+- Location (at, or minBound/maxBound bounding box)
+
+Results are grouped and paginated, capped at web.max-results.
+
+Click on a row to view additional details.
+
+#### Recording Queue page (/queue)
+
+Overview of the recording queue: current depth, max capacity, and queued activity summary. Useful for diagnosing logging back-pressure on busy servers.
+
+#### Status dropdown (header dropdown)
+
+Shows Prism version, storage backend, queue capacity, WAL mode, and live counters from storage, recording, and purge services.
+
+## JSON API
+
+If you want to script against the same data, the underlying endpoints accept `Authorization: Bearer <api-key>` and return JSON:
+
+```
+GET /api/v1/activities?action=block-break&causePlayer=Notch&since=1h
+GET /api/v1/reports/recording-queue
+GET /api/v1/status
+```
+
+Activity query parameters mirror the UI filters: action, excludeAction, etc... plus their negation counterparts.
+
+Example:
+
+```
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+"http://localhost:4040/api/v1/activities?action=block-break&since=1d"
+```
+
+Non-GET methods return 405. Requests without a valid bearer token return 401.

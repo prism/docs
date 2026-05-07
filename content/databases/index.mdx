@@ -10,7 +10,7 @@ Prism's database schema and connection pools are configured for the best perform
 
 You need a database to use Prism.
 
-A database is a place prism can store, search, and retreive all of the data it needs.
+A database is a place prism can store, search, and retrieve all of the data it needs.
 
 ## File-based Databases: H2, Sqlite
 
@@ -18,7 +18,7 @@ H2 and Sqlite are file-based databases and work "out of the box" because their f
 
 They're convenient as they need zero setup and do not rely on a database server installation.
 
-There are a lot of great resources comparing these choices to another so if you have a choice between databases, please look into comparisons before choosing which Prism should use.
+There are a lot of great resources comparing these choices to one another so if you have a choice between databases, please look into comparisons before choosing which Prism should use.
 
 ## Database Servers: MySQL, MariaDB, Postgres
 
@@ -84,7 +84,7 @@ Stored procedures/functions can move complex db queries/logic to the database se
 
 <Callout type='info'>Available in Prism 4.4 and above.</Callout>
 
-Prism writes data to your database in batches. A single writer is usually plenty because the default batch size is 2000. However, if you want extra write thoughput without changing batch size, you can enable parallel writes.
+Prism writes data to your database in batches. A single writer is usually plenty because the default batch size is 2000. However, if you want extra write throughput without changing batch size, you can enable parallel writes.
 
 Prism allows up to 4 connections to be used for writes. This is a 4x increase in write throughput.
 

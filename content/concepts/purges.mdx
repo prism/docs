@@ -27,7 +27,7 @@ See [cron expression generator](https://www.freeformatter.com/cron-expression-ge
 ```hocon
 command-schedules=[
     {
-        command="prism purge before:6w -nodefaults"
+        command="prism purge before:6w --nodefaults"
         cron="0 0 0 ? * * *"
         enabled=true
     }
@@ -38,11 +38,11 @@ command-schedules=[
 
 A purge will run in cycles - deleting X records, waiting for a short delay, and repeating.
 
-Data is a deleted in "batches" for performance reasons. The limit and delay are both configurable.
+Data is deleted in "batches" for performance reasons. The limit and delay are both configurable.
 
 Prism looks for the minimum and maximum primary key using the purge conditions you provide and then cycles between those two numbers 5k (or whatever limit you've defined) at a time so that each cycle only affects that many rows at once. 
 
-When the delete statement runs, it looks for any rows matching your conditions that's between the lowest primary key + your limit, until that value reaches the maximum primary key.
+When the delete statement runs, it looks for any rows matching your conditions that are between the lowest primary key + your limit, until that value reaches the maximum primary key.
 
 This means it's not always deleting 5k rows every cycle, but deletes up to and not exceeding 5k rows every cycle.
 

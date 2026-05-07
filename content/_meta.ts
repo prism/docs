@@ -13,6 +13,7 @@ const meta: MetaRecord = {
   flags: {},
   misc: {},
   troubleshooting: {},
+  web: {},
   api: {},
   sql: {}
 }
