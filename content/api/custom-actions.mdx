@@ -1,0 +1,71 @@
+
+
+
+import { Callout, Tabs } from 'nextra/components'
+
+#  Custom Actions
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+Custom actions allow your plugin to record activities that aren't natively supported by Prism. Our example plugin listens for players toggling sprinting.
+
+```java
+// 1. Get the Prism API via Bukkit's ServicesManager:
+RegisteredServiceProvider<PrismPaperApi> provider = Bukkit.getServicesManager().getRegistration(PrismPaperApi.class);
+
+// 2. Register a custom action type
+ActionType sprintToggle = prism.actionTypeRegistry().registerGenericAction("sprint-toggle");
+
+// 3. Create an action via the factory
+var action = prism.actionFactory().createGenericAction(sprintToggle, desc);
+
+// 4. Build the activity for this action
+var activity = PaperActivity.builder()
+  .action(action)
+  .location(event.getPlayer().getLocation())
+  .cause(event.getPlayer())
+  .build();
+
+// 5. Add to the recording queue
+prism.recordingService().addToQueue(activity);
+```
+
+If actions record modifications, you can define what a rollback and/or restore would do by implementing a `ModificationHandler` and registering it to the action type. 
+
+```java
+// Register with:
+prism
+  .actionTypeRegistry()
+  .registerBlockAction("custom-event", ActionResultType.REMOVES, true, new CustomEventHandler());
+
+// The class:
+private class CustomEventHandler implements ModificationHandler {
+  @Override
+  public ModificationResult applyRollback(
+    ModificationRuleset modificationRuleset,
+    Object owner,
+    Activity activityContext,
+    ModificationQueueMode mode
+  ) {
+    if (mode == ModificationQueueMode.COMPLETING) {
+      // do something
+    }
+
+    return ModificationResult.builder().activity(activityContext).statusFromMode(mode).build();
+  }
+
+  @Override
+  public ModificationResult applyRestore(
+    ModificationRuleset modificationRuleset,
+    Object owner,
+    Activity activityContext,
+    ModificationQueueMode mode
+  ) {
+    if (mode == ModificationQueueMode.COMPLETING) {
+      // do something
+    }
+
+    return ModificationResult.builder().activity(activityContext).statusFromMode(mode).build();
+  }
+}
+```

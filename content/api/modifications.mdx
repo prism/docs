@@ -1,0 +1,66 @@
+import { Callout, Tabs } from 'nextra/components'
+
+# Modifications
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+Prism allows you to easily build queries without writing any SQL. Prism's `preview`, `rollback`, and `restore` convenince methods pass your query object to the storage service and executes it on an async thread. Results are then fed to the modification service which uses the main thread to apply changes to the world.
+
+```java
+ActivityQuery query = PaperActivityQuery.builder()
+    .actionTypeKeys(List.of("custom-break"))
+    .causePlayerName(player.getName())
+    .limit(100)
+    .rollback()
+    .build();
+
+prism
+    // "sender" is any object that represents the "owner" of this modification
+    .rollback(sender, query)
+    .whenComplete((result, error) -> {
+        if (error != null) {
+            sender.sendMessage("Rollback failed: " + error.getMessage());
+            return;
+        }
+
+        if (result.applied() == 0) {
+            sender.sendMessage("No custom-break activities were rolled back.");
+            return;
+        }
+
+        sender.sendMessage("Rolled back " + result.applied() + " custom-break activities.");
+    });
+```
+
+## Modification Rulesets
+
+A modification ruleset is a programmatic version of flags and configuration parameters that get passed to a modification. By default, prism uses the configured values.
+
+You may pass a custom ruleset to the method:
+
+```java
+var ruleset = ModificationRuleset.builder()
+    .blockBlacklist(blockBlacklist)
+    .drainLava(false)
+    .moveEntities(false)
+    .removeDrops(false)
+    .taskDelay(taskDelay);
+
+prism
+    // The ruleset is the third parameter
+    .rollback(sender, query, ruleset)
+    .whenComplete((result, error) -> {
+        if (error != null) {
+            sender.sendMessage("Rollback failed: " + error.getMessage());
+            return;
+        }
+
+        if (result.applied() == 0) {
+            sender.sendMessage("No custom-break activities were rolled back.");
+            return;
+        }
+
+        sender.sendMessage("Rolled back " + result.applied() + " custom-break activities.");
+    });
+```
+

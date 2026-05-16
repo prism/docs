@@ -1,0 +1,66 @@
+import { Callout, Tabs } from 'nextra/components'
+
+# Lookups
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+Prism allows you to easily build queries without writing any SQL. Prism's `lookup` convenince method passes your query object to the storage service and executes it on an async thread.
+
+```java
+// Query the last 5 sprint-toggle activities
+var query = PaperActivityQuery.builder()
+  .actionTypeKeys(List.of("sprint-toggle"))
+  .grouped(false)
+  .limit(5)
+  .build();
+
+prism
+  .lookup(query)
+  .whenComplete((results, error) -> {
+    if (error != null) {
+        sender.sendMessage("Query failed: " + error.getMessage());
+
+        return;
+    }
+
+    if (results.isEmpty()) {
+        sender.sendMessage("No sprint-toggle activities found.");
+
+        return;
+    }
+
+    for (Activity activity : results) {
+      sender.sendMessage(" - " + activity.action().descriptor() + " at " + activity.coordinate());
+    }
+  });
+```
+
+## Direct Querying
+
+If you need finer control over which thread your query runs on, you can use the `storageAdapter` directly. We strongly advise you run it on an async thread to avoid blocking the main server thread.
+
+```java
+// Run on an async thread to avoid blocking the game server
+Bukkit.getAsyncScheduler()
+  .runNow(this, task -> {
+    try {
+      // Query the last 5 sprint-toggle activities
+      var query = PaperActivityQuery.builder()
+        .actionTypeKeys(List.of("sprint-toggle"))
+        .grouped(false)
+        .limit(5)
+        .build();
+
+      // Pass to the storage adapter to execute
+      List<Activity> results = prism.storageAdapter().queryActivities(query);
+
+      sender.sendMessage("Last " + results.size() + " sprint-toggle activities:");
+
+      for (Activity activity : results) {
+          sender.sendMessage(" - " + activity.action().descriptor() + " at " + activity.coordinate());
+      }
+    } catch (Exception e) {
+      // handle error
+    }
+  });
+```
