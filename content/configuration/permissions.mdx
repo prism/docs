@@ -1,23 +1,254 @@
+import { Callout } from 'nextra/components'
+
 # Permissions
+
+## Coarse Permissions
+
+Prism provides a simple set of coarse permissions that grant access to related commands and features. These are the most commonly used permissions and are sufficient for most server setups.
 
 We recommend these permissions for server staff:
 
 - `prism.extinguish` - Use the extinguish command to put out fires.
+- `prism.drain` - Use the drain command to remove nearby lava and water.
 - `prism.help` - Show help info and `/prism about` messaging.
-- `prism.lookup` - Use the lookup, near, peek commands, and the inspection wand.
+- `prism.lookup` - Use the lookup, near, proximity commands, the teleport command, and the inspection wand.
 - `prism.inspect` - Use the inspection wand, regardless of lookup permissions.
-- `prism.modify` - Preview and perform rollbacks/restores, previews, and use related wands.
+- `prism.modify` - Perform rollbacks/restores and previews, run queue reports, open the vault, and use the rollback/restore wands.
+- `prism.wand` - Use all three wands (inspect, rollback, restore) in a single node.
 - `prism.alerts.receive` - Receive block/item alerts.
 - `prism.alerts.bypass` - Do not trigger alerts (knowing how big the vein you found is fun, but maybe unfair...).
 
 We recommend these permissions for server administrators:
 
-- `prism.admin` - Administration commands like config reload, queue management.
+- `prism.admin` - Administration commands: config reload, cache management, status, queue purges, and web server control.
 - `prism.purge` - Trigger database purges manually.
 
-Airtags related permissions:
+Airtags permissions:
 
-- `prism.airtags` — Allows creating and viewing your own airtags.
-- `prism.airtags.others` — Allows viewing another player's airtags.
-- `prism.airtag.limit.<n>` — Caps the player at `n` airtags. If they have several (e.g. via group inheritance), the highest number wins.
-- `prism.airtag.limit.unlimited` No cap.
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+- `prism.airtags` — Allows managing your own airtags (list, view, untag, delete) and opening your airtag vault.
+
+<Callout type='warning'>Managing **another player's** airtags requires the granular node `prism.command.airtags.others` and must be assigned on its own.</Callout>
+
+## Granular Permissions
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+For users needing deeper control, Prism also defines granular permissions for every command, subcommand, parameter, flag, and value. These allow you to grant access to specific features without giving full access to a command.
+
+These are granted by coarse permissions, so you should generally not use both sets at the same time.
+
+### Airtags
+
+The `prism.airtags` umbrella grants every node below **except** `.others` and the `.limit.*` caps, which are assigned individually.
+
+| Node | Command / Behavior |
+|------|---------|
+| `prism.command.airtag`| `/pr airtag` — attach a tag to the held item |
+| `prism.command.airtags`| `/pr airtags` (list), `/pr airtags view`, `/pr airtags untag`, `/pr airtags delete` |
+| `prism.command.airtags.vault`| `/pr airtags vault <player>` |
+| `prism.command.airtags.others`| Allows the `view` and `delete` subcommands to target **another** player's airtags. Not granted by `prism.airtags`. |
+| `prism.command.airtags.limit.<n>`| Caps the holder at `n` airtags. If several apply (e.g. via group inheritance), the highest wins. Not granted by `prism.airtags`. |
+| `prism.command.airtags.limit.unlimited`| No cap. (A negative number works the same way.) |
+
+### Alerts
+
+| Node | Behavior |
+|------|----------|
+| `prism.alerts.bypass`| Holders do not trigger staff alerts for their own actions |
+| `prism.alert.bypass`| Legacy alias of `prism.alerts.bypass`, kept for back-compat (note the singular `alert`) |
+
+### Cache
+
+| Node | Command |
+|------|---------|
+| `prism.command.cache`| **Parent** — grants the cache nodes |
+| `prism.command.cache.list`| `/pr cache list` |
+
+### Configs
+
+| Node | Command |
+|------|---------|
+| `prism.command.configs`| **Parent** — grants the configs nodes |
+| `prism.command.configs.reload`| `/pr configs prism reload` |
+| `prism.command.configs.locales-reload`| `/pr configs locales reload` |
+| `prism.command.configs.write-hikari`| `/pr configs storage write-hikari` |
+
+### Drain
+
+| Node | Command |
+|------|---------|
+| `prism.command.drain`| **Convenience parent** — grants both drain nodes |
+| `prism.command.drain.lava`| `/pr drain lava` |
+| `prism.command.drain.water`| `/pr drain water` |
+
+### Extinguish
+
+| Node | Command |
+|------|---------|
+| `prism.command.extinguish`| `/pr extinguish` (`/pr ex`) |
+
+### Help
+
+| Node | Command |
+|------|---------|
+| `prism.command.help`| `/pr`, `/pr about` (same as coarse permission) |
+
+### Lookup
+
+| Node | Command |
+|------|---------|
+| `prism.command.lookup`| `/pr lookup` (`/pr l`) — [supports parameter/flag nodes](#parameters-and-flags) |
+
+### Modify
+
+The modify family has no granular `prism.command.modify` parent — the coarse `prism.modify` permission is the umbrella that grants every node below (plus the vault and the rollback/restore wands). The individual nodes are flat:
+
+| Node | Command |
+|------|---------|
+| `prism.command.rollback`| `/pr rollback` (`/pr rb`) — [supports parameter/flag nodes](#parameters-and-flags) |
+| `prism.command.restore`| `/pr restore` (`/pr rs`) — [supports parameter/flag nodes](#parameters-and-flags) |
+| `prism.command.preview`| **Parent** — grants all preview nodes |
+| `prism.command.preview.rollback`| `/pr preview-rollback` (`/pr prb`) — [supports parameter/flag nodes](#parameters-and-flags) |
+| `prism.command.preview.restore`| `/pr preview-restore` (`/pr prs`) — [supports parameter/flag nodes](#parameters-and-flags) |
+| `prism.command.report`| **Parent** — grants all report nodes |
+| `prism.command.report.modification-queue`| `/pr report modification-queue` |
+| `prism.command.report.recording-queue`| `/pr report recording-queue` |
+| `prism.command.report.partial`| `/pr report partial` |
+| `prism.command.report.skips`| `/pr report skips` |
+
+### Near
+
+| Node | Command |
+|------|---------|
+| `prism.command.near`| `/pr near` — [supports parameter/flag nodes](#parameters-and-flags) |
+
+### Proximity
+
+| Node | Command |
+|------|---------|
+| `prism.command.proximity`| `/pr proximity` (`/pr prox`) — [supports parameter/flag nodes](#parameters-and-flags) |
+
+### Purges
+
+| Node | Command |
+|------|---------|
+| `prism.command.purge`| **Parent** — grants the purge nodes |
+| `prism.command.purge.start`| `/pr purge (start\|stop)` — [supports parameter/flag nodes](#parameters-and-flags) |
+
+### Status
+
+| Node | Command |
+|------|---------|
+| `prism.command.status`| `/pr status` |
+
+### Teleport
+
+| Node | Command |
+|------|---------|
+| `prism.command.teleport`| **Convenience parent** — grants every teleport node below |
+| `prism.command.teleport.id`| `/pr teleport id` |
+| `prism.command.teleport.loc`| `/pr teleport loc` |
+
+### Vault
+
+`/pr vault` is part of the modify family and is also granted by the coarse `prism.modify` permission.
+
+| Node | Command |
+|------|---------|
+| `prism.command.vault`| `/pr vault` (`/pr v`) — [supports parameter/flag nodes](#parameters-and-flags) |
+
+### Wand
+
+| Node | Command |
+|------|---------|
+| `prism.command.wand`| **Convenience parent** — grants all three wand nodes |
+| `prism.command.wand.inspect`| `/pr wand inspect` (and bare `/pr wand`) — [supports parameter/flag nodes](#parameters-and-flags) |
+| `prism.command.wand.rollback`| `/pr wand rollback` — [supports parameter/flag nodes](#parameters-and-flags) |
+| `prism.command.wand.restore`| `/pr wand restore` — [supports parameter/flag nodes](#parameters-and-flags) |
+
+### Web
+
+Granted by the coarse `prism.admin` permission (there is no dedicated coarse node for the web server).
+
+| Node | Command |
+|------|---------|
+| `prism.command.web`| **Convenience parent** — grants both web nodes |
+| `prism.command.web.start`| `/pr web start` |
+| `prism.command.web.stop`| `/pr web stop` |
+
+### Parameters and Flags
+
+Parameters and flags may be individually granted or denied for all commands that support them. They are defined as child nodes of the command they belong to.
+
+They are defined in the format of `prism.<command-path>.parameter.<parameter-name>` for parameters and `prism.<command-path>.flag.<flag-name>` for flags.
+
+Some commands only support a subset of parameters/flags. For example, the `verbose` flag only applies to purge (`prism.command.purge.start.flag.verbose`), while the `count` flag applies to the query-style commands (lookup, near, proximity, rollback, restore, preview, vault) but not purge — so `prism.command.lookup.flag.count` is valid while `prism.command.purge.start.flag.count` is not.
+
+**Examples**
+
+```bash
+# Lookup, but only allow filtering by player and action
+prism.command.lookup.parameter.p
+prism.command.lookup.parameter.a
+
+# Allow the count flag on lookups
+prism.command.lookup.flag.count
+
+# Restrict purge to a single parameter
+prism.command.purge.start.parameter.a
+```
+
+### Parameter Values
+
+In `prism.conf`, you can define custom permissions nodes that enforce limits for parameter values.
+
+For example, the following user-created permission node `prism.limit.example` sets a maximum radius of 10 blocks for all commands, with a max time of seven days (7d), and only for break/place actions.
+
+It then allows up to a 32 blocks radius for the `lookup` command only.
+
+**All users with `prism.limit.example` nodes will experience the limits defined.**
+
+```hocon
+limits=[
+    {
+        permission="prism.limit.example"
+        # Apply these limits to all commands
+        all {
+            numeric {
+                r {
+                    max=10
+                }
+            }
+            max-time {
+                since="7d"
+            }
+            allowed {
+                a=[
+                    break,
+                    place
+                ]
+            }
+        }
+        commands {
+            # Apply these limits only to the lookup command
+            "command.lookup" {
+                numeric {
+                    r {
+                        max=32
+                    }
+                }
+            }
+        }
+    }
+]
+```
+
+| Key | Nesting | Value type | Purpose |
+| --- | --- | --- | --- |
+| `numeric` | scope (`all` or `commands.PATH`) | map of `param` to an object with `min` / `max` | Integer parameter caps, keyed by parameter (for example `r`, `above`, `below`). |
+| `min` | `numeric.PARAM` | integer (optional) | Smallest value the holder may use; unset means no minimum. |
+| `max` | `numeric.PARAM` | integer (optional) | Largest value the holder may use; unset means no maximum. |
+| `max-time` | scope (`all` or `commands.PATH`) | map of `param` to a duration string | Longest look-back for duration parameters (for example `since`, `before`), values like `7d` or `12h`. Floors the query's lower time bound. |
+| `allowed` | scope (`all` or `commands.PATH`) | map of `param` to a list of strings | Value whitelist per parameter (for example `world`, `a`, `b`); the holder may only use the listed values. |
