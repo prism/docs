@@ -1,0 +1,50 @@
+import { Callout } from 'nextra/components'
+
+# Ordered Filter Mode
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+Ordered mode applies every filter in the order they are defined, allowing you to create more complex filtering logic.
+
+The first matching filter **wins**. If it's an IGNORE filter, the activity will not be recorded. If it's an ALLOW filter, it will. Subsequent filters are not checked.
+
+In the following example, the first block allows recording block-break activities for all ores, regardless of any other conditions. If a block break isn't an ore, the filter doesn't apply and the next filter is checked.
+
+The next filter ignores all block-breaks below y=0.
+
+```hocon
+filter-mode=ORDERED
+filters=[{
+    name="Record ore breaks"
+    enabled=true
+    behavior=ALLOW
+    conditions {
+        actions=[
+            block-break
+        ]
+        affected-block {
+            tags=[
+                "minecraft:coal_ores",
+                "minecraft:iron_ores",
+                "minecraft:copper_ores",
+                "minecraft:gold_ores",
+                "minecraft:redstone_ores",
+                "minecraft:lapis_ores",
+                "minecraft:diamond_ores",
+                "minecraft:emerald_ores"
+            ]
+        }
+    }
+},
+{
+    name="Ignore deep block breaks"
+    enabled=true
+    behavior=IGNORE
+    conditions {
+        actions=[
+            block-break
+        ]
+        below=0
+    }
+}]
+```

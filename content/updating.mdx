@@ -40,11 +40,16 @@ New entries into locales files should be automatic. Changes to existing entries 
 
 </Steps>
 
-## Betas/Dev Builds
+## Dev Builds
 
-Betas and dev builds assume the database and files are temporary.
+After new work is reviewed and tested privately, dev builds are published to our CI server.
 
-You may need to delete the database, `locales`, and `libs` folder with every update.
+While these are intended to be ready for use and wider testing, they may contain bugs. Ideally, the bugs should be minor and won't cause significant issue for a production server.
+
+Any breaking issues found in dev builds will be fixed quickly.
+
+Schema updates may be present in dev builds and for larger servers, you may want to run the command line updater first. However, we do not publish release notes for dev builds so you should pay attention to github.
+
 
 ## Versioning
 

@@ -1,0 +1,112 @@
+import { Callout } from 'nextra/components'
+
+# Filter Examples
+
+## Ignore common blocks
+
+```hocon
+filters=[
+    {
+        name="Ignore common blocks"
+        enabled=true
+        behavior=IGNORE
+        conditions {
+            affected-block {
+                # Use some convenient Minecraft tags to bulk list generic blocks
+                tags=[
+                    "minecraft:dirt",
+                    "minecraft:base_stone_overworld",
+                    "minecraft:sand"
+                ]
+                # Add gravel since it's not in any of those tags
+                materials=[
+                    gravel
+                ]
+            }
+        }
+    }
+]
+```
+
+## Record ore breaks but nothing else in a "resource" world
+
+```hocon
+filters=[
+    {
+        name="Ores breaks everywhere"
+        enabled=true
+        behavior=ALLOW
+        conditions {
+            affected-block {
+                tags=[
+                    prism:all_ores
+                ]
+            }
+        }
+    }, {
+        name="Ignore everything in resource"
+        enabled=true
+        behavior=IGNORE
+        conditions {
+            worlds=[
+                resource
+            ]
+        }
+    }
+]
+```
+
+<Callout type='info'>The `prism:all_ores` tag is a custom tag included in our datapack, which must be installed separately. You can use any default or custom tag (downloaded or made from scratch).</Callout>
+
+## Ignore items thrown by entities (blaze fireballs, shulker bullets, etc)
+
+```hocon
+filters=[
+    {
+        name="Ignore entity item throws"
+        enabled=true
+        behavior=IGNORE
+        conditions {
+            actions=[
+                item-throw
+            ]
+            cause-types=[
+                entity
+            ]
+        }
+    }
+]
+```
+
+## Ignore non-ore block breaks below Y 0:
+
+```hocon
+filters=[
+    {
+        name="Ignore deep non-ore breaks"
+        enabled=true
+        behavior=IGNORE
+        conditions {
+            actions=[block-break]
+            below=-1
+            affected-block { excluded-tags=["prism:all_ores"] }
+        }
+    }
+]
+```
+
+## Ignore creeper/TNT explosions everywhere:
+
+```hocon
+filters=[
+    {
+        name="Ignore explosion grief"
+        enabled=true
+        behavior=IGNORE
+        conditions {
+            actions=[block-break]
+            cause-entity-type { entity-types=[creeper, tnt, wither] }
+        }
+    }
+]
+```

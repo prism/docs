@@ -1,0 +1,181 @@
+# Conditions
+
+Conditions control how filters match activities. A filter will only apply if an activity matches all defined conditions.
+
+Condition *values* work like parameter values - any value in the list that matches is enough.
+
+
+## `above` / `below`
+Match by Y coordinate. Inclusive. May be combined to form a Y range.
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `above` | integer | Matches activities at Y **≥** this value. |
+| `below` | integer | Matches activities at Y **≤** this value. |
+
+```hocon
+# Ignore everything below ground
+conditions {
+    below=64
+}
+```
+
+## `actions`
+
+List of action type keys (e.g. `block-break`, `block-place`, `item-throw`). Case-sensitive; keys are lowercase kebab-case.
+
+| Key | Type |
+|-----|------|
+| `actions` | list of strings |
+| `excluded-actions` | list of strings |
+
+```hocon
+conditions {
+    actions=[block-break, block-place]
+}
+```
+
+## `affected-block` / `cause-block`
+Match the block an activity affected (`affected-block`) or the block that caused it (`cause-block`).
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `materials` | list of strings | Bukkit `Material` names (case-insensitive), e.g. `gravel`. |
+| `tags` | list of strings | Namespaced block tags, e.g. `minecraft:dirt`, `prism:all_ores`. |
+| `excluded-materials` | list of strings | Materials to exclude. |
+| `excluded-tags` | list of strings | Block tags to exclude. |
+
+```hocon
+conditions {
+    affected-block {
+        tags=["minecraft:dirt", "minecraft:base_stone_overworld"]
+        materials=[gravel]
+    }
+}
+```
+
+## `affected-entity-type` / `cause-entity-type`
+Match the entity an activity affected, or the entity type that caused it.
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `entity-types` | list of strings | Bukkit `EntityType` names (case-insensitive), e.g. `creeper`. |
+| `tags` | list of strings | Namespaced entity-type tags, e.g. `minecraft:impact_projectiles`. |
+| `excluded-entity-types` | list of strings | Entity types to exclude. |
+| `excluded-tags` | list of strings | Entity-type tags to exclude. |
+
+```hocon
+conditions {
+    cause-entity-type {
+        entity-types=[creeper, tnt, wither]
+    }
+}
+```
+
+## `bounds`
+Match activities inside an axis-aligned box (inclusive). Both `min` and `max` are required; corners may be given in any order.
+
+| Key | Type |
+|-----|------|
+| `bounds.min` | coordinate `{ x, y, z }` |
+| `bounds.max` | coordinate `{ x, y, z }` |
+
+```hocon
+conditions {
+    bounds {
+        min { x=-100, y=0, z=-100 }
+        max { x=100, y=320, z=100 }
+    }
+}
+```
+
+## `cause-types`
+Match by the **category** of an activity's cause rather than a specific value.
+
+| Key | Type |
+|-----|------|
+| `cause-types` | list of: `block`, `entity`, `named`, `player` |
+| `excluded-cause-types` | list of: `block`, `entity`, `named`, `player` |
+
+- `block` — a block cause (e.g. a dispenser)
+- `entity` — a **non-player** entity cause (creeper, breeze, etc.)
+- `named` — a named/string cause (gravity, etc.)
+- `player` — a player cause
+
+```hocon
+# Ignore item-throw fired by any non-player entity
+conditions {
+    actions=[item-throw]
+    cause-types=[entity]
+}
+```
+
+## `cause-player` / `affected-player`
+Match by player name. `cause-player` is the acting player; `affected-player` is a player targeted by the action.
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `names` | list of strings | Player names (case-insensitive). |
+| `excluded-names` | list of strings | Player names to exclude. |
+| `game-modes` | list of strings | `cause-player` only. Game modes (`SURVIVAL`, `CREATIVE`, `ADVENTURE`, `SPECTATOR`). |
+
+> `game-modes` applies to `cause-player` only; it has no effect under `affected-player`.
+
+```hocon
+conditions {
+    cause-player {
+        names=[Notch, jeb_]
+        game-modes=[CREATIVE]
+    }
+}
+```
+
+## `item`
+Match the item material involved in an activity (e.g. drops, item use).
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `materials` | list of strings | Bukkit `Material` names. |
+| `tags` | list of strings | Namespaced item tags. |
+| `excluded-materials` | list of strings | Materials to exclude. |
+| `excluded-tags` | list of strings | Item tags to exclude. |
+
+## `named-causes`
+List of non-player, non-entity, non-block causes such as `gravity` or natural causes. Matches only activities whose cause is a named/string cause.
+
+| Key | Type |
+|-----|------|
+| `named-causes` | list of strings |
+| `excluded-named-causes` | list of strings |
+
+## `permissions`
+List of permission nodes. Matches when the cause player has **any** listed permission. (No exclude variant.)
+
+| Key | Type |
+|-----|------|
+| `permissions` | list of strings |
+
+## `radius`
+Match activities within `distance` blocks of `center`, on each axis — i.e. a **cube** of `center ± distance` (inclusive), matching the lookup `r:` parameter. Both `center` and `distance` are required.
+
+| Key | Type |
+|-----|------|
+| `radius.center` | coordinate `{ x, y, z }` |
+| `radius.distance` | integer (blocks) |
+
+```hocon
+conditions {
+    radius {
+        center { x=0, y=64, z=0 }
+        distance=150
+    }
+}
+```
+
+## `worlds`
+Match by world name. **Case-sensitive** (exact world folder name).
+
+| Key | Type |
+|-----|------|
+| `worlds` | list of strings |
+| `excluded-worlds` | list of strings |

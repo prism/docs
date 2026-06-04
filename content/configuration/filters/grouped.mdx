@@ -1,0 +1,74 @@
+import { Callout } from 'nextra/components'
+
+# Grouped Filter Mode
+
+Grouped filter mode was used in Prism 4.0 until 4.4, which changed the default to ordered.
+
+<Callout type='info'>This is considered a legacy mode and we do not recommend using it as it's unintuitive. It may be removed in a future version.</Callout>
+
+## Filter Logic
+
+Grouped mode processes all IGNORE filters first, then all ALLOW filters. Filters belonging to each group 
+
+Once divided by their behavior, filters are applied by the order they're defined in `prism.conf`. If an activity matches the conditions, the decision is made. Subsequent filters are not used.
+
+**The default decision to record depends on defined behaviors**
+
+If you define a list of IGNOREs, the default "decision" to record will be true. More clearly, anything not being ignored will be recorded.
+
+If you have any ALLOW filters, the default decision will be to deny. If an activity does not match your ALLOW filter, it will not be recorded.
+
+**If you mix IGNORE/ALLOW filters, you may need a generous ALLOW**
+
+Mixing IGNORE/ALLOW can be useful when you want to whitelist things in one way, but blacklist others.
+
+If you have an ignore list for "world" and an ALLOW list for "world_nether", nothing from "world" will get recorded because the *default* decision when any ALLOW is present is to reject the activity.
+
+We can fix this by adding an ALLOW rule for world:
+
+```hocon
+filters=[
+    {
+        name="Ignore common blocks"
+        behavior=IGNORE
+        conditions {
+            affected-block {
+                materials=[
+                    gravel
+                ]
+                tags=[
+                    "minecraft:dirt",
+                    "minecraft:base_stone_overworld",
+                    "minecraft:sand"
+                ]
+            }
+        }
+    },
+    {
+        name="Allow everything else in world"
+        behavior=ALLOW
+        conditions {
+            worlds=[
+                world
+            ]
+        }
+    },
+    {
+        name="Allow quartz in nether"
+        behavior=ALLOW
+        conditions {
+            affected-block {
+                materials=[
+                    nether_quartz_ore
+                ]
+            }
+            worlds=[world_nether]
+        }
+    }
+]
+```
+
+The end result is that:
+
+1. Anything matching the IGNORE conditions is rejected
+2. Anything matching either ALLOW will be recorded
