@@ -15,6 +15,9 @@ web {
     # Enable the embedded web server for browser-based activity queries.
     enabled = true
 
+    # Allow the server to auto-start when prism does
+    auto-start = true
+
     # The port the web server listens on.
     port = 4040
 
@@ -26,7 +29,9 @@ web {
 }
 ```
 
-Restart Prism. If api-key is empty, you'll see an error in the console and the web server will not start.
+Restart Prism or use `/pr web start`. If api-key is empty, you'll see an error in the console and the web server will not start.
+
+You can also stop the web server without stopping prism using `/pr web stop`. If auto-start is enabled, it will start again on the next Prism restart.
 
 <Callout type='error'>The API key authorizes full read access to your activity log. Be careful who you share the key with and ensure it's not present in source code. We strongly recommend an SSL-secured reverse proxy to 4040 for public access.</Callout>
 
@@ -69,7 +74,7 @@ Shows Prism version, storage backend, queue capacity, WAL mode, and live counter
 If you want to script against the same data, the underlying endpoints accept `Authorization: Bearer <api-key>` and return JSON:
 
 ```
-GET /api/v1/activities?action=block-break&causePlayer=Notch&since=1h
+GET /api/v1/activities?action=block-break&causePlayer=viveleroi&since=1h
 GET /api/v1/reports/recording-queue
 GET /api/v1/status
 ```

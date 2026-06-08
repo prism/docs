@@ -1,0 +1,11 @@
+import Command from '../../components/command.tsx'
+
+# /pr web
+
+<Command command="web (start|stop)" />
+
+Starts or stops the embedded web server.
+
+Requires the `web.enabled` config option to be set to true, otherwise the web server can **never** start.
+
+If `auto-start` is enabled in the config, the server will start automatically when Prism starts.
