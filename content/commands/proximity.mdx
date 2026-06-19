@@ -1,0 +1,35 @@
+import Command from '../../components/command.tsx'
+import { Callout } from 'nextra/components'
+
+# /pr proximity
+
+<Command command="proximity <activity-id>" alias='prox <activity-id>' />
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+Given an existing "basis activity", the proximity command will find activities in relation to it.
+
+For example, you can find all activities by a given player within 5 minutes of their `player-join` event.
+
+The proximity command requires one of the following parameters:
+
+- [before](../../parameters/before) - Before the basis activity.
+- [since](../../parameters/since) - Since the basis activity.
+- [r](../../parameters/r) - A radius around the basis activity.
+- [d](../../parameters/d) - A duration around the basis activity (think of it like a radius but for time). This parameter is only available for this command.
+
+First, you need to find an activity to be your basis. In our example, you can search for the player's join event. You must use `--nogroup` so that the activity ID is visible.
+
+`/pr lookup a:join p:viveleroi --nogroup`
+
+The activity ID is the gray number to the left of the result rows, for example `101`.
+
+Take that ID and use it in the proximity command, with a required parameter:
+
+`/pr proximity 101 d:5m`
+
+You may also use regular parameters (except location/time-based ones) to further filter the results.
+
+For our final example command, which finds all activities by the player `viveleroi` within 5 minutes of their join event, we can use:
+
+`/pr proximity 101 d:5m p:viveleroi`
