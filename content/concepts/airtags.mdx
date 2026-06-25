@@ -1,0 +1,43 @@
+import { Callout } from 'nextra/components'
+
+# Airtags
+
+<Callout type='info'>Available in Prism 4.4 and above.</Callout>
+
+Players can "tag" items, which assigns a unique six-character code to the currently held item. This allows prism to track activities for that item, including despawns and destructions. It's most useful for tracking tools, armor, or other unique high-value items.
+
+Clicking on a tagged item in the AirTags GUI or by using the lookup parameter, players can view the activity history for that item.
+
+Airtagged item data is immune from purges, but the _activity_ data is not.
+
+## Commands
+
+- `/pr airtag` - Assign a new airtag to the currently held item, or view the current airtag.
+- `/pr airtags` - View your own airtags (requires prism.airtags).
+- `/pr airtags view <player>` - View another player's airtags (requires prism.airtags + prism.airtags.others).
+- `/pr airtags untag` - Remove the airtag from the currently held item (requires prism.airtags). Does not delete activity data.
+- `/pr airtags delete <airtag>` - Delete the airtag and its associated activity data (requires prism.airtags to delete your own, prism.airtags.others to delete another player's).
+
+## Parameter
+
+- `airtag:<code>` - Perform a lookup for the given airtag code.
+
+## Actions
+
+- `item-airtag` - The airtag creation action.
+- `item-untag` - The airtag removal action.
+- `item-despawn` - The airtag despawn action.
+- `item-destroy` - The airtag destruction action.
+
+## Permissions
+
+- `prism.airtags` — Allows creating and viewing your own airtags.
+- `prism.airtags.others` — Allows viewing another player's airtags.
+- `prism.airtag.limit.<n>` — Caps the player at `n` airtags. If they have several (e.g. via group inheritance), the highest number wins.
+- `prism.airtag.limit.unlimited` No cap.
+
+## Caveats
+
+We've tried to limit the ability to duplicate items with airtags. For example copying an airtagged book in a crafting table will prevent the airtag from copying to the new item. However, there are infinite ways items can be duplicated given the addition of other plugins, datapacks, etc. 
+
+The airtag GUI attempts to show the latest version of the item it knows about, but if alterations have occurred outside of prism's knowledge it may not 100% reflect the current item. 

@@ -1,0 +1,29 @@
+import Command from '../../components/command.tsx'
+
+# /pr airtags
+
+See [AirTags](../concepts/airtags).
+
+## Your Airtags
+
+<Command command="airtags" />
+
+Shows an inventory of your airtagged items (requires prism.airtags).
+
+## Player's Airtags
+
+<Command command="airtags view <player>" />
+
+Shows an inventory of the specified player's airtagged items (requires prism.airtags + prism.airtags.others).
+
+## Delete Airtag
+
+<Command command="airtags delete <airtag>" />
+
+Delete the airtag and its associated activity data (requires prism.airtags to delete your own, prism.airtags.others to delete another player's).
+
+## Untag Item
+
+<Command command="airtags untag" />
+
+Remove the airtag from the currently held item (requires prism.airtags). Does not delete activity data.
