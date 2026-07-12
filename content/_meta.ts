@@ -2,7 +2,8 @@ import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
   index: {},
-  'getting-started': {},
+  installing: {},
+  using: {},
   updating: {},
   databases: {},
   configuration: {},

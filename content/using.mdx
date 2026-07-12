@@ -1,0 +1,51 @@
+# Using
+
+Prism is an incredibly powerful tool for server administrators and moderators. This usage guide covers the basics, but be sure to explore all documentation to learn it's true power!
+
+Prism records in-game activities (aka ["actions"](../concepts#actions)) with important details like the time, location, and cause. Once prism is installed, it will automatically record these activities per your configuration.
+
+Prism only has one command: `/prism` (or `/pr` for short). Everything else is a child command.
+
+## Lookups
+
+Viewing and querying this data is called a "lookup". Lookups are performed in-game using a command, through the optional [web view](../web), or even the [API](../api).
+
+Run `/pr lookup`. By default, prism uses a radius of 5 blocks and a timeframe of three days, so this command will display activities that occurred within 5 blocks of your current location in the last three days.
+
+By default, activities are **grouped**, which means that similar activities are combined into one entry. A player might break 50 stone blocks, but when grouped, you'll only see one entry saying they broke 50 stone rather than 50 entries.
+
+## Parameters
+
+[Parameters](../parameters) are command-line arguments that filter activities. They're useful in most prism commands.
+
+Here are some common parameters and their usage:
+
+- `/pr l p:viveleroi` - Query activities performed by the player "viveleroi".
+- `/pr l a:break` - Query "break" activities only.
+- `/pr l e:cow` - Query activities that affected a cow.
+
+Parameters can be combined, many support multiple values, and some can be negated. Be sure to explore all available parameters.
+
+## Flags
+
+[Flags](../flags) are command-line arguments that modify the behavior of a command. They're useful in most prism commands.
+
+A common flag is `-nogroup`, which tells prism to list activities individually. One important benefit is that you can see exact time and location for each activity.
+
+## Modifications
+
+Prism can perform [modifications](../concepts/modifications) using the recorded activity data.
+
+You can **rollback** activities by using the same parameters and flags as a lookup. For example, `/pr rollback p:viveleroi a:break` will rollback all "break" activities performed by the player "viveleroi".
+
+A **restore** is the opposite of a rollback, it re-applies the changes instead of reversing them.
+
+## Previews
+
+Rollbacks and restores can be previewed before they are applied. This is useful to ensure that the correct activities are being modified.
+
+A preview shows you what the changes would look like before actually modifying the world.
+
+Start a preview with `/pr preview-rollback p:viveleroi a:break`.
+
+If everything looks good, apply the changes for real with `/pr preview-apply`. If not, cancel them with `/pr preview-cancel`.

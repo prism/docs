@@ -14,13 +14,17 @@ A database is a place prism can store, search, and retrieve all of the data it n
 
 ## File-based Databases: H2, Sqlite
 
+Recommended for small servers.
+
 H2 and Sqlite are file-based databases and work "out of the box" because their files can exist alongside your plugin files.
 
 They're convenient as they need zero setup and do not rely on a database server installation.
 
 There are a lot of great resources comparing these choices to one another so if you have a choice between databases, please look into comparisons before choosing which Prism should use.
 
-## Database Servers: MySQL, MariaDB, Postgres
+## Relational Databases: MySQL, MariaDB, Postgres
+
+Recommended for medium servers (unless clickhouse is available).
 
 You'll either get one from your server hosting company (they'll give you the connection address and credentials), use a third party database service, or you'll install a database server yourself.
 
@@ -34,6 +38,18 @@ Shared servers...
 - Limited privileges so you can't utilize stored procedures.
 
 We recommend installing a database server on the same machine or network as your Minecraft server.
+
+However, if you have control over the database software installed, we strongly recommend ClickHouse.
+
+## Analytical Databases: ClickHouse
+
+Recommended for medium to large servers.
+
+ClickHouse is a "columnar" database, which is an optimal data storage method for Prism's use case. It is designed to handle large volumes of data efficiently and dramatically faster than traditional relational databases.
+
+Becaused it operates on columns and not rows, it has to less to read when querying data, and doesn't need indexing and normalization that relational databases do.
+
+We **strongly** recommend using it when possible, especially if you plan on storing tens of millions of activities or more.
 
 ## What You Can Do
 
