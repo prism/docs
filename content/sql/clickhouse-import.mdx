@@ -98,7 +98,6 @@ LEFT JOIN prism_src.prism_causes       AS c   ON c.cause_id = a.cause_id
 LEFT JOIN prism_src.prism_players      AS cp  ON cp.player_id = a.cause_player_id
 LEFT JOIN prism_src.prism_entity_types AS cet ON cet.entity_type_id = a.cause_entity_type_id
 LEFT JOIN prism_src.prism_blocks       AS cb  ON cb.block_id = a.cause_block_id
-WHERE a.activity_id <= M
 SETTINGS join_use_nulls = 1;
 ```
 
