@@ -1,0 +1,137 @@
+import { Callout, Steps } from 'nextra/components'
+
+## Prerequisites
+
+- ClickHouse 25.8+.
+- The ClickHouse server must be able to reach the MySQL/MariaDB host.
+- Stop the Minecraft server to avoid interruptions and to capture all data.
+
+<Callout type='info'>All queries must be executed in ClickHouse, not MariaDB/MySQL</Callout>
+
+<Steps>
+
+## Create the ClickHouse tables
+
+Create the database:
+
+```sql
+CREATE DATABASE IF NOT EXISTS prism;
+```
+
+Run the two SQL files from the plugin source with `%prefix%` replaced by your prefix:
+
+- [`prism_activities.sql`](https://github.com/prism/prism/blob/main/prism-core/src/main/resources/sql/clickhouse/prism_activities.sql)
+- [`prism_airtags.sql`](https://github.com/prism/prism/blob/main/prism-core/src/main/resources/sql/clickhouse/prism_airtags.sql)
+
+## Expose the MySQL/MariaDB tables to ClickHouse
+
+Nothing is changed on the MySQL side. One statement maps the whole source database into
+ClickHouse, so the import can join the lookup tables directly:
+
+```sql
+CREATE DATABASE prism_src ENGINE = MySQL('mysql-host:3306', 'prism', 'prism_user', 'password');
+```
+
+## Copy the data
+
+Replace `prism_` below and with your configured `prefix` if you changed it.
+
+```sql
+INSERT INTO prism.prism_activities
+(
+    activity_id, `timestamp`, world, world_uuid, x, y, z, action,
+    affected_material, affected_item_data, affected_item_airtag, affected_item_quantity,
+    affected_block_ns, affected_block_name, affected_block_data, affected_block_translation_key,
+    replaced_block_ns, replaced_block_name, replaced_block_data,
+    affected_entity_type, affected_player, affected_player_uuid,
+    cause, cause_player, cause_player_uuid,
+    cause_entity_type, cause_entity_type_translation_key,
+    cause_block_ns, cause_block_name, cause_block_translation_key,
+    descriptor, metadata, serializer_version, serialized_data, reversed
+)
+SELECT
+    a.activity_id,
+    toDateTime(a.`timestamp`),
+    ifNull(w.world, ''),
+    ifNull(w.world_uuid, ''),
+    a.x,
+    a.y,
+    a.z,
+    ifNull(act.action, ''),
+    ifNull(i.material, ''),
+    ifNull(i.data, ''),
+    ifNull(t.airtag, ''),
+    a.affected_item_quantity,
+    ifNull(ab.ns, ''),
+    ifNull(ab.name, ''),
+    ifNull(ab.data, ''),
+    ifNull(ab.translation_key, ''),
+    ifNull(rb.ns, ''),
+    ifNull(rb.name, ''),
+    ifNull(rb.data, ''),
+    ifNull(aet.entity_type, ''),
+    ifNull(ap.player, ''),
+    ifNull(ap.player_uuid, ''),
+    ifNull(c.cause, ''),
+    ifNull(cp.player, ''),
+    ifNull(cp.player_uuid, ''),
+    ifNull(cet.entity_type, ''),
+    ifNull(cet.translation_key, ''),
+    ifNull(cb.ns, ''),
+    ifNull(cb.name, ''),
+    ifNull(cb.translation_key, ''),
+    ifNull(a.descriptor, ''),
+    ifNull(a.metadata, ''),
+    a.serializer_version,
+    ifNull(a.serialized_data, ''),
+    toUInt8(a.reversed != 0)
+FROM prism_src.prism_activities AS a
+LEFT JOIN prism_src.prism_worlds       AS w   ON w.world_id = a.world_id
+LEFT JOIN prism_src.prism_actions      AS act ON act.action_id = a.action_id
+LEFT JOIN prism_src.prism_items        AS i   ON i.item_id = a.affected_item_id
+LEFT JOIN prism_src.prism_airtags      AS t   ON t.airtag_id = i.airtag_id
+LEFT JOIN prism_src.prism_blocks       AS ab  ON ab.block_id = a.affected_block_id
+LEFT JOIN prism_src.prism_blocks       AS rb  ON rb.block_id = a.replaced_block_id
+LEFT JOIN prism_src.prism_entity_types AS aet ON aet.entity_type_id = a.affected_entity_type_id
+LEFT JOIN prism_src.prism_players      AS ap  ON ap.player_id = a.affected_player_id
+LEFT JOIN prism_src.prism_causes       AS c   ON c.cause_id = a.cause_id
+LEFT JOIN prism_src.prism_players      AS cp  ON cp.player_id = a.cause_player_id
+LEFT JOIN prism_src.prism_entity_types AS cet ON cet.entity_type_id = a.cause_entity_type_id
+LEFT JOIN prism_src.prism_blocks       AS cb  ON cb.block_id = a.cause_block_id
+WHERE a.activity_id <= M
+SETTINGS join_use_nulls = 1;
+```
+
+## Copy Airtags
+
+   ```sql
+   INSERT INTO prism.prism_airtags
+       (airtag, player_uuid, player_name, created_at,
+        latest_item_material, latest_item_data, latest_item_timestamp)
+   SELECT
+       t.airtag,
+       ifNull(p.player_uuid, ''),
+       ifNull(p.player, ''),
+       t.created_at,
+       ifNull(i.material, ''),
+       ifNull(i.data, ''),
+       ifNull(t.latest_item_timestamp, 0)
+   FROM prism_src.prism_airtags AS t
+   LEFT JOIN prism_src.prism_players AS p ON p.player_id = t.player_id
+   LEFT JOIN prism_src.prism_items   AS i ON i.item_id = t.latest_item_id
+   SETTINGS join_use_nulls = 1;
+   ```
+
+## Cleanup
+
+```sql
+DROP DATABASE prism_src;
+```
+
+## Verify
+
+The import will take longer for larger databases. Once complete, update your prism storage configuration for ClickHouse, boot your server, and verify lookups work as expected.
+
+Once verified, you can delete the MySQL/MariaDB database at your convenience.
+
+</Steps>
